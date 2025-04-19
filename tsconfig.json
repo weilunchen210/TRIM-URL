@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+      "target": "es2018",
+      "module": "commonjs",
+      "noImplicitAny": true,
+      "removeComments": true,
+      "preserveConstEnums": true,
+      "sourceMap": true,
+      "skipLibCheck": true,
+      "esModuleInterop": true,
+      "rootDir": "./src",
+    },
+    "include" : ["src/**/*"],
+    "exclude": ["node_modules", "dist"]
+}

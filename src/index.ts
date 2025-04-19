@@ -13,8 +13,6 @@ app.use('/api', url);
 console.log(process.env.MONGODB_URL)
 
 mongoose.connect(process.env.MONGODB_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
 })
 
 app.listen(3000, () => {

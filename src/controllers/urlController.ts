@@ -1,14 +1,18 @@
+import { UrlDto } from '../dto/UrlDto.js';
 import {urlService} from '../services/urlService.js'
+import {Request, Response} from "express";
 
 export class urlController{
+    private urlService: urlService
 
     constructor(){
         this.urlService = new urlService();
     }
 
-    async createShortenedURL(req, res){
+    async createShortenedURL(req: Request, res:Response){
         try{
-            const result = await this.urlService.save(req);
+            const input: UrlDto = req.body;
+            const result = await this.urlService.save(input);
             return res.status(201).json(result);
         }catch (error){
             res.status(400).json({error: error.message});
