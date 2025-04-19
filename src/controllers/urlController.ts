@@ -28,4 +28,13 @@ export class urlController{
             res.status(400).json({error: error.message});
         }
     }
+
+    async getAll(req: Request, res:Response){
+        try{
+            const result = await this.urlService.getAll();
+            return res.status(200).json(result)
+        }catch (error){
+            res.status(400).json({error: error.message});
+        }
+    }
 }

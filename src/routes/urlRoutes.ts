@@ -13,4 +13,8 @@ router.get('/:shortenedUrl', (req, res) => {
     controller.getOriginalLink(req, res);
 });
 
+router.get('/', (req, res) => {
+    controller.getAll(req, res);
+});
+
 export default router;
