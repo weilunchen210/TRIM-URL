@@ -18,4 +18,14 @@ export class urlController{
             res.status(400).json({error: error.message});
         }
     }
+
+    async getOriginalLink(req: Request, res:Response){
+        try{
+            const {shortenedUrl} = req.params;
+            const result = await this.urlService.getOriginalLink(shortenedUrl);
+            return res.redirect(301, result)
+        }catch (error){
+            res.status(400).json({error: error.message});
+        }
+    }
 }
