@@ -21,17 +21,15 @@ userSchema.pre('save', async function(next) {
 
     if (!user.isModified('password')) return next();
 
-    bcrypt.genSalt(10, function(error,salt){
-        if(error) return next(error);
-
-        bcrypt.hash(user.password, salt, function (error,hash){
-            if (error) return next (error);
-            user.password = hash;
-            next();
-        })
-    })
-}
-)
+    try {
+        const salt = await bcrypt.genSalt(10);
+        const hash = await bcrypt.hash(this.password, salt);
+        this.password = hash;
+        next();
+    } catch (error) {
+        next(error);
+    }
+})
 
 const User = mongoose.model('User', userSchema);
 

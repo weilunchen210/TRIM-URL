@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import url  from './routes/urlRoutes.js';
+import user from './routes/userRoutes.js'
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -8,7 +9,8 @@ const app = express();
 app.use(express.json());
 
 
-app.use('/api', url);
+app.use('/url', url);
+app.use('/user', user);
 
 console.log(process.env.MONGODB_URL)
 
