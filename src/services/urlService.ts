@@ -21,5 +21,4 @@ export class urlService{
         const UrlList =  await Url.find();
         return UrlList
     }
-
 }
