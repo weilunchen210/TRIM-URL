@@ -20,4 +20,14 @@ export class userController{
         }
     }
 
+    async login(req: Request, res:Response){
+        try{
+            const input: UserDto = req.body;
+            const result = await this.urlService.login(input);
+            return res.status(201).json(result);
+        }catch (error){
+            res.status(400).json({error: error.message});
+        }
+    }
+
 }

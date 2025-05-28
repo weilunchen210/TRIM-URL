@@ -12,7 +12,8 @@ export class urlController{
     async createShortenedURL(req: Request, res:Response){
         try{
             const input: UrlDto = req.body;
-            const result = await this.urlService.save(input);
+            const userId = req.userId.id;
+            const result = await this.urlService.save(input,userId);
             return res.status(201).json(result);
         }catch (error){
             res.status(400).json({error: error.message});
@@ -32,6 +33,16 @@ export class urlController{
     async getAll(req: Request, res:Response){
         try{
             const result = await this.urlService.getAll();
+            return res.status(200).json(result)
+        }catch (error){
+            res.status(400).json({error: error.message});
+        }
+    }
+
+    async delete(req: Request, res:Response){
+        try{
+            const { id } = req.params;
+            const result = await this.urlService.delete(id);
             return res.status(200).json(result)
         }catch (error){
             res.status(400).json({error: error.message});
