@@ -1,0 +1,100 @@
+.url-item-grid {
+    display: grid;
+    grid-template-columns: 2fr 1.5fr 1fr 0.5fr;
+    border-bottom: 1px solid #e9ecef;
+    transition: background-color 0.2s ease;
+}
+
+.url-item-grid:hover {
+    background-color: #f8f9fa;
+}
+
+.url-item-grid:last-child {
+    border-bottom: none;
+}
+
+.grid-cell {
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    border-right: 1px solid #e9ecef;
+    min-height: 60px;
+}
+
+.grid-cell:last-child {
+    border-right: none;
+}
+
+.original-url a {
+    color: #5A827E;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.original-url a:hover {
+    color: #84AE92;
+    text-decoration: underline;
+}
+
+.short-url-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.short-url-text {
+    font-family: 'Courier New', monospace;
+    background-color: #f1f3f4;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.copy-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+    font-size: 1rem;
+}
+
+.copy-btn:hover {
+    background-color: #e9ecef;
+}
+
+.created-date {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.actions {
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.edit-btn,
+.delete-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+    font-size: 1rem;
+}
+
+.edit-btn:hover {
+    background-color: #e3f2fd;
+}
+
+.delete-btn:hover {
+    background-color: #ffebee;
+}
