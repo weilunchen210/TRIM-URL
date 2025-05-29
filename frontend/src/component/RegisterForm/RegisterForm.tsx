@@ -1,17 +1,16 @@
 import { useState } from 'react'
-import "./LoginForm.css"
-import { Link, useNavigate } from 'react-router'
-// import { dummyLogin, loginUser } from '../../services/userService';
+import "./RegisterForm.css"
 
-
-function  LoginForm() {
+function  RegisterForm() {
     const [email,setEmail] = useState("")
+    const [username,setUsername] = useState("")
+    const [profilePicture,setProfilePicture] = useState("")
     const [password,setPassword] = useState("")
 
 
   return (
-    <div className="login-container-wrapper">
-      <div className="login-box">
+    <div className="register-container-wrapper">
+      <div className="register-box">
         <div className ="info-section">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="logo">
                 <path stroke-linecap="round" stroke-linejoin="round" d="m18.375 12.739-7.693 7.693a4.5 4.5 0 0 1-6.364-6.364l10.94-10.94A3 3 0 1 1 19.5 7.372L8.552 18.32m.009-.01-.01.01m5.699-9.941-7.81 7.81a1.5 1.5 0 0 0 2.112 2.13" />
@@ -23,13 +22,21 @@ function  LoginForm() {
                 Streamline your links, amplify your reach
             </p>
         </div>
-        <div className ="login-section">
-            <div className="login-title">
+        <div className ="register-section">
+            <div className="register-title">
             <label className ="title">
-                Login
+                Register
             </label>
             </div>
             <form>
+                <div className="input">
+                    <input 
+                        type="text" 
+                        value={username} 
+                        onChange={(e) => setUsername(e.target.value)} 
+                        placeholder="Email">
+                    </input>
+                </div>
                 <div className="input">
                     <input 
                         type="text" 
@@ -45,22 +52,20 @@ function  LoginForm() {
                         placeholder="Password">
                     </input>
                 </div>
-                <div className="submit">
+                <div className="input">
                     <input 
-                        className="button login-button" 
-                        type="submit" 
-                        value="Login">
+                        type="text" 
+                        value={profilePicture} 
+                        onChange={(e) => setProfilePicture(e.target.value)} 
+                        placeholder="Email">
                     </input>
                 </div>
                 <div className="submit">
-                    <button className="button dummy-login-button">
-                        Dummy Login
-                    </button>
-                </div>
-                <div className="register">
-                    <p>
-                        Don't have an account? <Link to="/register">Register</Link>
-                    </p>
+                    <input 
+                        className="button register-button" 
+                        type="submit" 
+                        value="Register">
+                    </input>
                 </div>
             </form>
         </div>
@@ -69,4 +74,4 @@ function  LoginForm() {
   )
 }
 
-export default LoginForm
+export default RegisterForm

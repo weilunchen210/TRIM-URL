@@ -7,12 +7,12 @@ import { useNavigate } from "react-router";
 function Login() {
   const navigate = useNavigate()
 
-  useEffect(() => {
-    const token = Cookies.get('token');
-    if (token) {
-      navigate('/main');
-    }
-  }, [navigate]);
+  // useEffect(() => {
+  //   const token = Cookies.get('token');
+  //   if (token) {
+  //     navigate('/main');
+  //   }
+  // }, [navigate]);
   
     return (
       <div>
