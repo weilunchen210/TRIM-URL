@@ -17,7 +17,7 @@ const Sidebar = () => {
       icon: 'https://img.icons8.com/?size=100&id=7867&format=png&color=000000'
     },
     {
-      path: '/settings',
+      path: '/profile',
       name: 'Profile Settings',
       icon: 'https://img.icons8.com/?size=100&id=82535&format=png&color=000000'
     }
