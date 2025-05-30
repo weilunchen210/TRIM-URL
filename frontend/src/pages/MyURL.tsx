@@ -6,7 +6,7 @@ import SideBar from "../component/SideBar/SideBar";
 import UrlList from "../component/Dashboard/UrlList/UrlList";
 
 
-function Dashboard() {
+function MyURL() {
   const navigate = useNavigate()
 
 //   useEffect(() => {
@@ -23,9 +23,10 @@ function Dashboard() {
                 <div className="dashboard-header">
                     <h1>Dashboard</h1>
                 </div>
+                <UrlList />
             </main>
       </div>
     )
   }
 
-export default Dashboard
+export default MyURL

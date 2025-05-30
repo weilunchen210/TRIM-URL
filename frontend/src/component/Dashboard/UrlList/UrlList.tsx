@@ -32,6 +32,47 @@ const UrlList: React.FC = () => {
                 originalUrl: 'google.com3',
                 shortenedUrl: 'def456',
                 createdAt: '2024-01-13T09:15:00Z'
+            },
+            {
+                _id: '3',
+                originalUrl: 'google.com3',
+                shortenedUrl: 'def456',
+                createdAt: '2024-01-13T09:15:00Z'
+            },{
+                _id: '3',
+                originalUrl: 'google.com3',
+                shortenedUrl: 'def456',
+                createdAt: '2024-01-13T09:15:00Z'
+            },
+            {
+                _id: '3',
+                originalUrl: 'google.com3',
+                shortenedUrl: 'def456',
+                createdAt: '2024-01-13T09:15:00Z'
+            },
+            {
+                _id: '3',
+                originalUrl: 'google.com3',
+                shortenedUrl: 'def456',
+                createdAt: '2024-01-13T09:15:00Z'
+            },
+            {
+                _id: '3',
+                originalUrl: 'google.com3',
+                shortenedUrl: 'def456',
+                createdAt: '2024-01-13T09:15:00Z'
+            },
+            {
+                _id: '3',
+                originalUrl: 'google.com3',
+                shortenedUrl: 'def456',
+                createdAt: '2024-01-13T09:15:00Z'
+            },
+            {
+                _id: '3',
+                originalUrl: 'google.com3',
+                shortenedUrl: 'def456',
+                createdAt: '2024-01-13T09:15:00Z'
             }
         ];
         
@@ -46,13 +87,23 @@ const UrlList: React.FC = () => {
     };
 
     if (loading) {
-        return <div className="url-list-loading">Loading URLs...</div>;
+        return (
+            <div className="loading-container">
+                <div className="loader"></div>
+                <div className="url-list-loading">Loading URLs...</div>
+            </div>
+    );
     }
 
     return (
         <div className="url-list-container">
             <h2 className="url-list-title">Your URLs</h2>
             
+            <div className = "buttons">
+                <input className="search-bar" type="text"></input>
+                <button className = "add-URL-button"> Add URL </button>
+            </div>
+
             <div className="url-grid">
                 <div className="grid-header">
                     <div className="header-cell">Original URL</div>

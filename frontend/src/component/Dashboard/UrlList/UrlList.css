@@ -1,5 +1,5 @@
 .url-list-container {
-    background-color: #FAFFCA;
+    background-color: white;
     border-radius: 12px;
     padding: 2rem;
     margin: 2rem;
@@ -21,6 +21,22 @@
     overflow: hidden;
     border: 1px solid #B9D4AA;
 }
+
+.buttons{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:1rem;
+
+}
+
+.buttons .add-URL-button{
+    border:none;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    border-radius:5px;
+    background-color:#B9D4AA;
+    cursor:pointer;
+}
+
 
 .grid-header {
     display: grid;
@@ -46,13 +62,6 @@
     gap: 0;
 }
 
-.url-list-loading {
-    text-align: center;
-    padding: 3rem;
-    color: #5A827E;
-    font-size: 1.2rem;
-}
-
 .empty-state {
     grid-column: 1 / -1;
     text-align: center;
@@ -64,4 +73,34 @@
 .empty-state p {
     font-size: 1.1rem;
     margin: 0;
+}
+
+.url-list-loading {
+    padding: 3rem;
+    color: #5A827E;
+    font-size: 1.2rem;
+}
+
+
+.loading-container{
+    height:100vh;
+    display:flex;
+    flex-direction: column;
+    margin-left:290px;
+    align-items: center;
+    justify-content: center;
+}
+
+.loader {
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #3498db; 
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  -webkit-animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
