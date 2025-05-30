@@ -35,12 +35,14 @@
     border-radius:5px;
     background-color:#B9D4AA;
     cursor:pointer;
+    color:white;
+    font-weight:700;
 }
 
 
 .grid-header {
     display: grid;
-    grid-template-columns: 2fr 1.5fr 1fr 0.5fr;
+    grid-template-columns: 1fr 1.5fr 1.5fr 0.5fr 0.6fr 0.5fr;
     background: linear-gradient(135deg, #5A827E 0%, #84AE92 100%);
     color: white;
 }
@@ -92,15 +94,15 @@
 }
 
 .loader {
-  border: 8px solid #f3f3f3;
-  border-top: 8px solid #3498db; 
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  -webkit-animation: spin 2s linear infinite;
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid #3498db; 
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    -webkit-animation: spin 2s linear infinite;
 }
 
 @-webkit-keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }

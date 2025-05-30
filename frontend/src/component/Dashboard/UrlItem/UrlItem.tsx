@@ -4,8 +4,10 @@ import './UrlItem.css';
 interface UrlItemProps {
     url: {
         _id: string;
+        name:string;
         originalUrl: string;
         shortenedUrl: string;
+        clicks:number;
         createdAt: string;
     };
     onDelete: (id: string) => void;
@@ -37,6 +39,11 @@ const UrlItem: React.FC<UrlItemProps> = ({ url, onDelete }) => {
 
     return (
         <div className="url-item-grid">
+            <div className="grid-cell">
+                {url.name}
+            </div>
+
+
             <div className="grid-cell original-url">
                 <a 
                     href={url.originalUrl} 
@@ -65,11 +72,15 @@ const UrlItem: React.FC<UrlItemProps> = ({ url, onDelete }) => {
                     </button>
                 </div>
             </div>
+
+            <div className="grid-cell">
+                {url.clicks}
+            </div>
             
             <div className="grid-cell created-date">
                 {formatDate(url.createdAt)}
             </div>
-            
+
             <div className="grid-cell actions">
                 <button 
                     className="edit-btn"

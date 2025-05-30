@@ -4,75 +4,99 @@ import './UrlList.css';
 
 interface UrlData {
     _id: string;
+    name:string;
     originalUrl: string;
     shortenedUrl: string;
+    clicks:number;
     createdAt: string;
 }
 
 const UrlList: React.FC = () => {
     const [urls, setUrls] = useState<UrlData[]>([]);
+    const [query,setQuery] = useState('')
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const mockUrls: UrlData[] = [
             {
                 _id: '1',
-                originalUrl: 'google.com',
+                name: "Google Homepage",
+                originalUrl: 'https://www.google.com',
                 shortenedUrl: 'abc123',
+                clicks: 1547,
                 createdAt: '2024-01-15T10:30:00Z'
             },
             {
                 _id: '2',
-                originalUrl: 'google.com2',
+                name: "YouTube",
+                originalUrl: 'https://www.youtube.com',
                 shortenedUrl: 'xyz789',
+                clicks: 892,
                 createdAt: '2024-01-14T15:45:00Z'
             },
             {
                 _id: '3',
-                originalUrl: 'google.com3',
+                name: "GitHub",
+                originalUrl: 'https://www.github.com',
                 shortenedUrl: 'def456',
+                clicks: 2134,
                 createdAt: '2024-01-13T09:15:00Z'
             },
             {
-                _id: '3',
-                originalUrl: 'google.com3',
-                shortenedUrl: 'def456',
-                createdAt: '2024-01-13T09:15:00Z'
-            },{
-                _id: '3',
-                originalUrl: 'google.com3',
-                shortenedUrl: 'def456',
-                createdAt: '2024-01-13T09:15:00Z'
+                _id: '4',
+                name: "Stack Overflow",
+                originalUrl: 'https://stackoverflow.com',
+                shortenedUrl: 'ghi789',
+                clicks: 456,
+                createdAt: '2024-01-12T14:20:00Z'
             },
             {
-                _id: '3',
-                originalUrl: 'google.com3',
-                shortenedUrl: 'def456',
-                createdAt: '2024-01-13T09:15:00Z'
+                _id: '5',
+                name: "React Documentation",
+                originalUrl: 'https://react.dev',
+                shortenedUrl: 'jkl012',
+                clicks: 763,
+                createdAt: '2024-01-11T11:45:00Z'
             },
             {
-                _id: '3',
-                originalUrl: 'google.com3',
-                shortenedUrl: 'def456',
-                createdAt: '2024-01-13T09:15:00Z'
+                _id: '6',
+                name: "TypeScript Handbook",
+                originalUrl: 'https://www.typescriptlang.org/docs',
+                shortenedUrl: 'mno345',
+                clicks: 1289,
+                createdAt: '2024-01-10T16:30:00Z'
             },
             {
-                _id: '3',
-                originalUrl: 'google.com3',
-                shortenedUrl: 'def456',
-                createdAt: '2024-01-13T09:15:00Z'
+                _id: '7',
+                name: "MDN Web Docs",
+                originalUrl: 'https://developer.mozilla.org',
+                shortenedUrl: 'pqr678',
+                clicks: 345,
+                createdAt: '2024-01-09T13:15:00Z'
             },
             {
-                _id: '3',
-                originalUrl: 'google.com3',
-                shortenedUrl: 'def456',
-                createdAt: '2024-01-13T09:15:00Z'
+                _id: '8',
+                name: "CSS Tricks",
+                originalUrl: 'https://css-tricks.com',
+                shortenedUrl: 'stu901',
+                clicks: 967,
+                createdAt: '2024-01-08T10:00:00Z'
             },
             {
-                _id: '3',
-                originalUrl: 'google.com3',
-                shortenedUrl: 'def456',
-                createdAt: '2024-01-13T09:15:00Z'
+                _id: '9',
+                name: "npm Registry",
+                originalUrl: 'https://www.npmjs.com',
+                shortenedUrl: 'vwx234',
+                clicks: 234,
+                createdAt: '2024-01-07T15:30:00Z'
+            },
+            {
+                _id: '10',
+                name: "VS Code",
+                originalUrl: 'https://code.visualstudio.com',
+                shortenedUrl: 'yza567',
+                clicks: 1876,
+                createdAt: '2024-01-06T12:45:00Z'
             }
         ];
         
@@ -85,6 +109,10 @@ const UrlList: React.FC = () => {
     const handleDelete = (id: string) => {
         setUrls(urls.filter(url => url._id !== id));
     };
+ 
+    const filteredUrls = urls.filter(url=> 
+        url.name.toLowerCase().includes(query.toLowerCase())
+    )
 
     if (loading) {
         return (
@@ -100,14 +128,21 @@ const UrlList: React.FC = () => {
             <h2 className="url-list-title">Your URLs</h2>
             
             <div className = "buttons">
-                <input className="search-bar" type="text"></input>
+                <input 
+                    className="search-bar" 
+                    placeholder= "Search"
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    type="text"/>
                 <button className = "add-URL-button"> Add URL </button>
             </div>
 
             <div className="url-grid">
                 <div className="grid-header">
+                    <div className="header-cell">Name</div>
                     <div className="header-cell">Original URL</div>
                     <div className="header-cell">Short URL</div>
+                    <div className="header-cell">Clicks</div>
                     <div className="header-cell">Created</div>
                     <div className="header-cell">Actions</div>
                 </div>
@@ -118,7 +153,7 @@ const UrlList: React.FC = () => {
                             <p>No URLs found. Create your first short URL!</p>
                         </div>
                     ) : (
-                        urls.map((url) => (
+                        filteredUrls.map((url) => (
                             <UrlItem 
                                 key={url._id}
                                 url={url}
