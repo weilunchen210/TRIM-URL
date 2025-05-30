@@ -20,13 +20,13 @@
     border-radius: 8px;
     overflow: hidden;
     border: 1px solid #B9D4AA;
+    min-width: 1335px;
 }
 
 .buttons{
     display:flex;
     justify-content:space-between;
     margin-bottom:1rem;
-
 }
 
 .buttons .add-URL-button{
@@ -42,7 +42,7 @@
 
 .grid-header {
     display: grid;
-    grid-template-columns: 1fr 1.5fr 1.5fr 0.5fr 0.6fr 0.5fr;
+    grid-template-columns: 235px 400px 400px 80px 120px 100px; 
     background: linear-gradient(135deg, #5A827E 0%, #84AE92 100%);
     color: white;
 }
@@ -105,4 +105,34 @@
 @-webkit-keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+/* Horizontal scroll wrapper */
+.table-scroll-wrapper {
+    overflow-x: auto;
+    overflow-y: visible;
+    border-radius: 8px;
+    border: 1px solid #B9D4AA;
+    
+    /* Custom scrollbar styling */
+    scrollbar-width: thin;
+    scrollbar-color: #B9D4AA #f1f1f1;
+}
+
+.table-scroll-wrapper::-webkit-scrollbar {
+    height: 8px;
+}
+
+.table-scroll-wrapper::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.table-scroll-wrapper::-webkit-scrollbar-thumb {
+    background: #B9D4AA;
+    border-radius: 4px;
+}
+
+.table-scroll-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #5A827E;
 }

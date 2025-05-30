@@ -137,30 +137,32 @@ const UrlList: React.FC = () => {
                 <button className = "add-URL-button"> Add URL </button>
             </div>
 
-            <div className="url-grid">
-                <div className="grid-header">
-                    <div className="header-cell">Name</div>
-                    <div className="header-cell">Original URL</div>
-                    <div className="header-cell">Short URL</div>
-                    <div className="header-cell">Clicks</div>
-                    <div className="header-cell">Created</div>
-                    <div className="header-cell">Actions</div>
-                </div>
+            <div className="table-scroll-wrapper">
+                <div className="url-grid">
+                    <div className="grid-header">
+                        <div className="header-cell">Name</div>
+                        <div className="header-cell">Original URL</div>
+                        <div className="header-cell">Short URL</div>
+                        <div className="header-cell">Clicks</div>
+                        <div className="header-cell">Created</div>
+                        <div className="header-cell">Actions</div>
+                    </div>
 
-                <div className="grid-body">
-                    {urls.length === 0 ? (
-                        <div className="empty-state">
-                            <p>No URLs found. Create your first short URL!</p>
-                        </div>
-                    ) : (
-                        filteredUrls.map((url) => (
-                            <UrlItem 
-                                key={url._id}
-                                url={url}
-                                onDelete={handleDelete}
-                            />
-                        ))
-                    )}
+                    <div className="grid-body">
+                        {urls.length === 0 ? (
+                            <div className="empty-state">
+                                <p>No URLs found. Create your first short URL!</p>
+                            </div>
+                        ) : (
+                            filteredUrls.map((url) => (
+                                <UrlItem 
+                                    key={url._id}
+                                    url={url}
+                                    onDelete={handleDelete}
+                                />
+                            ))
+                        )}
+                    </div>
                 </div>
             </div>
         </div>

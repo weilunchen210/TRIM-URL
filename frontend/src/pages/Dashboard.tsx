@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import Cookies from 'js-cookie'
 import { useNavigate } from "react-router";
 import SideBar from "../component/SideBar/SideBar";
+import DashboardContainer from "../component/Dashboard/DashboardContainer";
 
 
 function Dashboard() {
@@ -17,11 +18,7 @@ function Dashboard() {
     return (
       <div>
         <SideBar />
-        <main className="dashboard-main">
-                <div className="dashboard-header">
-                    <h1>Dashboard</h1>
-                </div>
-            </main>
+        <DashboardContainer/>
       </div>
     )
   }

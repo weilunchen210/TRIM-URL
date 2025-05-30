@@ -45,14 +45,14 @@ function  LoginForm() {
                         placeholder="Password">
                     </input>
                 </div>
-                <div className="submit">
+                <div className="login-submit">
                     <input 
                         className="button login-button" 
                         type="submit" 
                         value="Login">
                     </input>
                 </div>
-                <div className="submit">
+                <div className="login-submit">
                     <button className="button dummy-login-button">
                         Dummy Login
                     </button>

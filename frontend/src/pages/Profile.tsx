@@ -18,12 +18,7 @@ function Profile() {
     return (
       <div>
         <SideBar />
-        <main className="dashboard-main">
-                <div className="dashboard-header">
-                    <h1>Dashboard</h1>
-                </div>
-                <ProfileContainer />
-            </main>
+        <ProfileContainer />
       </div>
     )
   }

@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import Cookies from 'js-cookie'
 import { useNavigate } from "react-router";
 import SideBar from "../component/SideBar/SideBar";
-import UrlList from "../component/Dashboard/UrlList/UrlList";
+import UrlList from "../component/MyURL/UrlList/UrlList";
 
 
 function MyURL() {
@@ -18,12 +18,7 @@ function MyURL() {
     return (
       <div>
         <SideBar />
-        <main className="dashboard-main">
-                <div className="dashboard-header">
-                    <h1>Dashboard</h1>
-                </div>
-                <UrlList />
-            </main>
+        <UrlList />
       </div>
     )
   }

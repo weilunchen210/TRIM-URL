@@ -60,7 +60,7 @@ function  RegisterForm() {
                         placeholder="Email">
                     </input>
                 </div>
-                <div className="submit">
+                <div className="register-submit">
                     <input 
                         className="button register-button" 
                         type="submit" 
