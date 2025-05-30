@@ -1,3 +1,4 @@
+import Analytics from "./BarChart/Analytics"
 import "./DashboardContainer.css"
 
 
@@ -10,7 +11,9 @@ function DashboardContainer(){
                 <div className="container">Clicks per month</div>
                 <div className="container">Clicks per year</div>
                 <div className="container">Active Links</div>
-                <div className="barchart ">Analytics</div>
+                <div className="barchart ">Analytics
+                    <Analytics/>
+                </div>
             </div>
         </div>
     )
