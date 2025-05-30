@@ -1,9 +1,7 @@
 import { useEffect } from "react";
 import Cookies from 'js-cookie'
 import { useNavigate } from "react-router";
-import RegisterForm from "../component/RegisterForm/RegisterForm";
 import SideBar from "../component/SideBar/SideBar";
-import UrlList from "../component/Dashboard/UrlList/UrlList";
 import ProfileContainer from "../component/ProfileContainer/ProfileContainer";
 
 

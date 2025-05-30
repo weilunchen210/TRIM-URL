@@ -10,7 +10,7 @@
     align-items: center;
 }
 
-.profile-picture{
+.profile-container .profile-picture{
     width:7rem;
     height:7rem;
 }
