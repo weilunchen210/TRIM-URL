@@ -1,11 +1,17 @@
 .dashboard-wrapper{
     height:93vh;
+    margin-left:290px;
 }
+
+.dashboard-wrapper h1{
+    margin-left:2rem;
+    margin-top:2rem;
+    color:#5A827E;
+}
+
 
 .dashboard-container{
     padding: 2rem;
-    margin: 2rem;
-    margin-left:290px;
     height:100%;
     display:grid;
     grid-template-columns: repeat(3,1fr);
@@ -25,4 +31,10 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
+}
+
+.barchart p{
+    font-weight:700;
+    font-size:1.2rem;
+    margin-bottom:1rem;
 }

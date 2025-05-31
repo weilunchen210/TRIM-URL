@@ -58,7 +58,7 @@ export default class Analytics extends PureComponent {
 
   render() {
     return (
-      <ResponsiveContainer width="90%" height="90%">
+      <ResponsiveContainer width="85%" height="85%">
         <BarChart
           data={data}
           margin={{

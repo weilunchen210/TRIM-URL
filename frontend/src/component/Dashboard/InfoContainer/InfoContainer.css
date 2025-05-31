@@ -1,0 +1,32 @@
+.info-icon{
+    width:2.5rem;
+    height:2.5rem;
+    border-radius:50% ;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.info-icon img{
+    width:75%;
+    height:75%
+}
+
+.info-container{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap:1rem;
+}
+
+.info-container h2{
+    font-size:18px;
+    font-weight:300;
+}
+
+.info-container p {
+    font-size:26px;
+    font-weight:700;
+}
+
