@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import "./RegisterForm.css"
+import { useNavigate } from 'react-router'
+import { registerUser } from '../../services/UserService'
 
 function  RegisterForm() {
     const [email,setEmail] = useState("")
@@ -7,6 +9,24 @@ function  RegisterForm() {
     const [profilePicture,setProfilePicture] = useState("")
     const [password,setPassword] = useState("")
 
+    const navigate = useNavigate()
+
+
+    const handleSubmit = async(e:React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const newUser = {
+            username:username,
+            password:password,
+            email:email,
+            profilePictureURL:profilePicture
+        }
+        try {
+            await registerUser(newUser);
+            navigate('/login'); 
+        } catch (error) {
+            console.error('Registration failed:', error);
+        }
+    }
 
   return (
     <div className="register-container-wrapper">
@@ -28,13 +48,13 @@ function  RegisterForm() {
                 Register
             </label>
             </div>
-            <form>
+            <form onSubmit={handleSubmit}>
                 <div className="input">
                     <input 
                         type="text" 
                         value={username} 
                         onChange={(e) => setUsername(e.target.value)} 
-                        placeholder="Email">
+                        placeholder="Username">
                     </input>
                 </div>
                 <div className="input">
@@ -57,7 +77,7 @@ function  RegisterForm() {
                         type="text" 
                         value={profilePicture} 
                         onChange={(e) => setProfilePicture(e.target.value)} 
-                        placeholder="Email">
+                        placeholder="ProfilePictureURL">
                     </input>
                 </div>
                 <div className="register-submit">

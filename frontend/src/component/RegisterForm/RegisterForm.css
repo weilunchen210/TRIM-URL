@@ -88,10 +88,11 @@
     border:none;
     background-color:lightgray;
     border-radius:5px;
+    text-indent:0.4rem;
 }
 
 .register-section .input input::placeholder{
-    text-indent:10px;
+    text-indent:0.4rem;
 }
 
 .register-section .register-submit{

@@ -80,7 +80,7 @@
 .login-section .input{
     padding-top:1rem;
     width:100%;
-    
+
 }
 
 .login-section .input input{
@@ -88,10 +88,12 @@
     border:none;
     background-color:lightgray;
     border-radius:5px;
+    text-indent:0.4rem;
 }
 
 .login-section .input input::placeholder{
-    text-indent:10px;
+    text-indent:0.4rem;
+
 }
 
 .login-section .login-submit{

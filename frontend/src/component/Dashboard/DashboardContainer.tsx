@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import Analytics from "./BarChart/Analytics"
 import "./DashboardContainer.css"
 import InfoContainer from "./InfoContainer/InfoContainer"
@@ -5,6 +6,22 @@ import InfoContainer from "./InfoContainer/InfoContainer"
 
 function DashboardContainer(){
 
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+            setTimeout(() => {
+                setLoading(false);
+            }, 1000);
+        }, []);
+
+    if (loading) {
+        return (
+            <div className="loading-container">
+                <div className="loader"></div>
+                <div className="url-list-loading">Loading URLs...</div>
+            </div>
+    );
+    }
 
     return(
         <div className="dashboard-wrapper">

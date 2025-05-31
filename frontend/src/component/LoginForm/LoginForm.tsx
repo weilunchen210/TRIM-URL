@@ -1,12 +1,33 @@
 import { useState } from 'react'
 import "./LoginForm.css"
 import { Link, useNavigate } from 'react-router'
+import { loginUser } from '../../services/UserService'
 // import { dummyLogin, loginUser } from '../../services/userService';
 
 
 function  LoginForm() {
     const [email,setEmail] = useState("")
     const [password,setPassword] = useState("")
+    const navigate = useNavigate()
+
+    const handleSubmit = async(e:React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const userDetails = {
+            email:email,
+            password: password
+        }
+        try {
+
+            await loginUser(userDetails);
+            navigate('/dashboard'); 
+
+        } catch (error) {
+
+            alert('Login failed')
+            console.error('Login failed:', error);
+
+        }
+    }
 
 
   return (
@@ -29,7 +50,7 @@ function  LoginForm() {
                 Login
             </label>
             </div>
-            <form>
+            <form onSubmit={handleSubmit}>
                 <div className="input">
                     <input 
                         type="text" 
