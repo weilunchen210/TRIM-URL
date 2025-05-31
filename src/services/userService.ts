@@ -18,7 +18,9 @@ export class userService{
         const url = new User({
             email: input.email, 
             username: input.username,
-            password: input.password}
+            password: input.password,
+            profilePictureURL: input.profilePictureURL
+        }
         );
         const savedModel =  await url.save();
         return savedModel

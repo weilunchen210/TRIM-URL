@@ -22,9 +22,12 @@ export class urlController{
 
     async getOriginalLink(req: Request, res:Response){
         try{
+            console.log(req.params)
             const {shortenedUrl} = req.params;
+            console.log(shortenedUrl)
             const result = await this.urlService.getOriginalLink(shortenedUrl);
-            return res.redirect(301, result)
+            console.log(result)
+            return res.redirect(302, result)
         }catch (error){
             res.status(400).json({error: error.message});
         }

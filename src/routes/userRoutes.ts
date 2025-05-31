@@ -5,7 +5,7 @@ const router = express.Router();
 
 const controller = new userController();
 
-router.post('/',(req,res) => {
+router.post('/register',(req,res) => {
     controller.register(req,res);
 })
 
