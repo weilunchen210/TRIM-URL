@@ -8,12 +8,13 @@ import UrlList from "../component/MyURL/UrlList/UrlList";
 function MyURL() {
   const navigate = useNavigate()
 
-//   useEffect(() => {
-//     const token = Cookies.get('token');
-//     if (token) {
-//       navigate('/main');
-//     }
-//   }, [navigate]);
+    useEffect(() => {
+        const token = Cookies.get('token');
+        if (!token) {
+        navigate('/login');
+        }
+    }, [navigate]);
+    
   
     return (
       <div>

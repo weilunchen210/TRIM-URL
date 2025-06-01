@@ -23,10 +23,11 @@
 .info-container h2{
     font-size:18px;
     font-weight:300;
+    text-align: center;
 }
 
 .info-container p {
     font-size:26px;
     font-weight:700;
+    text-align: center;
 }
-

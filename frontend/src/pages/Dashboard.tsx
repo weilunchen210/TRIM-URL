@@ -8,12 +8,12 @@ import DashboardContainer from "../component/Dashboard/DashboardContainer";
 function Dashboard() {
   const navigate = useNavigate()
 
-//   useEffect(() => {
-//     const token = Cookies.get('token');
-//     if (token) {
-//       navigate('/main');
-//     }
-//   }, [navigate]);
+  useEffect(() => {
+    const token = Cookies.get('token');
+    if (!token) {
+      navigate('/login');
+    }
+  }, [navigate]);
   
     return (
       <div>

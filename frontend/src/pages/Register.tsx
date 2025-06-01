@@ -7,12 +7,12 @@ import RegisterForm from "../component/RegisterForm/RegisterForm";
 function Register() {
   const navigate = useNavigate()
 
-//   useEffect(() => {
-//     const token = Cookies.get('token');
-//     if (token) {
-//       navigate('/main');
-//     }
-//   }, [navigate]);
+  useEffect(() => {
+    const token = Cookies.get('token');
+    if (token) {
+      navigate('/dashboard');
+    }
+  }, [navigate]);
   
     return (
       <div>

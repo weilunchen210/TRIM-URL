@@ -8,13 +8,14 @@ import ProfileContainer from "../component/ProfileContainer/ProfileContainer";
 function Profile() {
   const navigate = useNavigate()
 
-//   useEffect(() => {
-//     const token = Cookies.get('token');
-//     if (token) {
-//       navigate('/main');
-//     }
-//   }, [navigate]);
-  
+    useEffect(() => {
+        const token = Cookies.get('token');
+        if (!token) {
+        navigate('/login');
+        }
+    }, [navigate]
+    );
+
     return (
       <div>
         <SideBar />
