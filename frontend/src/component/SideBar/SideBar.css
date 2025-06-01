@@ -120,6 +120,7 @@
 .nav-text {
     font-weight: 500;
     font-size: 0.90rem;
+    text-align:center;
 }
 
 .sidebar-footer {
@@ -127,7 +128,7 @@
   border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.logout-btn {
+.logout-button {
   display: flex;
   align-items: center;
   width: 100%;

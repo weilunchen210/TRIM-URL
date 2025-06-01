@@ -1,11 +1,13 @@
 
-import { Link, useLocation } from 'react-router';
+import { Link, useLocation, useNavigate } from 'react-router';
+import Cookies from 'js-cookie'
 import './Sidebar.css';
 
 const Sidebar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
 
-  const menuItems = [
+  const sideBarItems = [
     {
       path: '/dashboard',
       name: 'Dashboard',
@@ -22,6 +24,14 @@ const Sidebar = () => {
       icon: 'https://img.icons8.com/?size=100&id=82535&format=png&color=000000'
     }
   ];
+
+  const handleLogout = () => {
+      Cookies.remove("token")
+      localStorage.removeItem('username')
+      localStorage.removeItem('profilePictureURL')
+      localStorage.removeItem('email')
+      navigate('/login')
+  }
 
   return (
     <>
@@ -42,7 +52,7 @@ const Sidebar = () => {
                 </p>
             </div>
           <ul className="nav-list">
-            {menuItems.map((item) => (
+            {sideBarItems.map((item) => (
               <li key={item.path} className="nav-item">
                 <Link 
                   to={item.path}
@@ -57,7 +67,7 @@ const Sidebar = () => {
         </nav>
 
         <div className="sidebar-footer">
-          <button className="logout-btn">
+          <button className="logout-button" onClick={handleLogout}>
             <img className="nav-icon" src="https://img.icons8.com/?size=100&id=105495&format=png&color=000000"></img>
             <span className="nav-text">Logout</span>
           </button>
