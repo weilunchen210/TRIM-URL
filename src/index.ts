@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import url  from './routes/urlRoutes.js';
 import user from './routes/userRoutes.js'
+import urlStatistics from './routes/urlStatisticsRoutes.js'
 import dotenv from 'dotenv';
 import cors from 'cors'; 
 
@@ -18,6 +19,7 @@ app.use(cors({
 
 app.use('/url', url);
 app.use('/user', user);
+app.use('/statistics', urlStatistics);
 
 console.log(process.env.MONGODB_URL)
 

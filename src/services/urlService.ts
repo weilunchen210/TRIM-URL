@@ -17,10 +17,12 @@ export class urlService{
     }
 
     async getOriginalLink(input: String) {
-        const savedModel =  await Url.findOne({'shortenedUrl':input});
-        console.log(input)
+        const savedModel =  await Url.findOneAndUpdate(
+            {'shortenedUrl':input},
+            {$inc:{clicks:1}},
+            {new:true}
+        );
 
-        console.log(savedModel)
         if(!savedModel){
             throw new Error("Shortened URL not found")
         }
@@ -51,4 +53,6 @@ export class urlService{
         }
         return { message: 'URL deleted successfully' };
     }
+
+    
 }
