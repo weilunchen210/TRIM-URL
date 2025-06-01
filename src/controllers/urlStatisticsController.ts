@@ -11,7 +11,8 @@ export class urlStatisticsController{
 
     async getStatistics(req: Request, res:Response){
             try{
-                const result = await this.urlStatisticsService.getStatistics("683b1a26d6b11478c90ca15b");
+                const userId = req.userId.id;
+                const result = await this.urlStatisticsService.getStatistics(userId);
                 return res.status(201).json(result);
             }catch (error){
                 res.status(400).json({error: error.message});

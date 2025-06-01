@@ -1,5 +1,6 @@
 import express from 'express';
 import { userController } from '../controllers/userController';
+import { auth } from '../middleware/auth.js';
 
 const router = express.Router();
 
@@ -11,6 +12,10 @@ router.post('/register',(req,res) => {
 
 router.post('/login',(req,res) => {
     controller.login(req,res);
+})
+
+router.post('/edit',auth,(req,res) => {
+    controller.editProfile(req,res);
 })
 
 export default router;

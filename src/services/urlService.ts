@@ -1,6 +1,7 @@
 import { UrlDto } from '../dto/UrlDto.js';
 import Url from '../models/url.js'
 import UrlClickHistory from '../models/urlClickHistory.js';
+import User from '../models/user.js';
 
 export class urlService{
     
@@ -16,7 +17,7 @@ export class urlService{
         return savedModel
     }
 
-    async getOriginalLink(input: String) {
+    async getOriginalLink(input: string) {
         const savedModel =  await Url.findOneAndUpdate(
             {'shortenedUrl':input},
             {$inc:{clicks:1}},
@@ -41,8 +42,8 @@ export class urlService{
         return originalUrl    
     }
 
-    async getAll() {
-        const UrlList =  await Url.find();
+    async getAllUrl(userId:string) {
+        const UrlList =  await Url.find({User:userId});
         return UrlList
     }
 
@@ -54,5 +55,5 @@ export class urlService{
         return { message: 'URL deleted successfully' };
     }
 
-    
+
 }
