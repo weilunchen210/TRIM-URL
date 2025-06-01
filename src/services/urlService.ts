@@ -55,5 +55,20 @@ export class urlService{
         return { message: 'URL deleted successfully' };
     }
 
-
+    async update(id: string, input: any) {     
+        const result = await Url.findByIdAndUpdate(
+            id,
+            { ...input }, 
+            { 
+                new: true, 
+                runValidators: true 
+            }
+        );
+        
+        if (!result) {
+            throw new Error('URL not found');
+        }
+        
+        return result;
+    }
 }

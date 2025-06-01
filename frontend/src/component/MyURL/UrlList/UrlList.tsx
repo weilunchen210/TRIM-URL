@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import UrlItem from '../UrlItem/UrlItem';
 import './UrlList.css';
 import Modal from '../../Modal/Modal';
+import type { URLInfo } from '../../../types/URLInfo';
+import { addURL, deleteURL, editURL, getURLList } from '../../../services/UrlService';
 
 interface UrlData {
     _id: string;
@@ -13,114 +15,128 @@ interface UrlData {
 }
 
 const UrlList: React.FC = () => {
-    const [urls, setUrls] = useState<UrlData[]>([]);
     const [query,setQuery] = useState("")
     const [loading, setLoading] = useState(true);
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [modalOriginalURL, setModalOriginalURL] = useState("")
     const [modalShortenedURL, setModalShortenedURL] = useState("")
     const [modalURLName, setModalURLName] = useState("")
+    const [URLList, setURLList] = useState<URLInfo[]>([])
+    const [URLToEdit, setURLToEdit] = useState("")
+    const [getURLError,setGetURLError] = useState(false)
+
+    const fetchURLs = async() => {
+        try{
+            setLoading(true)
+            const urlList =await getURLList();
+            setURLList(urlList)
+        }catch(error){
+            setGetURLError(true)
+            console.error('Error fetching URLs:' , error)
+        }finally{
+            setLoading(false);
+        }
+    }
+
 
     useEffect(() => {
-        const mockUrls: UrlData[] = [
-            {
-                _id: '1',
-                name: "Google Homepage",
-                originalUrl: 'https://www.google.com',
-                shortenedUrl: 'abc123',
-                clicks: 1547,
-                createdAt: '2024-01-15T10:30:00Z'
-            },
-            {
-                _id: '2',
-                name: "YouTube",
-                originalUrl: 'https://www.youtube.com',
-                shortenedUrl: 'xyz789',
-                clicks: 892,
-                createdAt: '2024-01-14T15:45:00Z'
-            },
-            {
-                _id: '3',
-                name: "GitHub",
-                originalUrl: 'https://www.github.com',
-                shortenedUrl: 'def456',
-                clicks: 2134,
-                createdAt: '2024-01-13T09:15:00Z'
-            },
-            {
-                _id: '4',
-                name: "Stack Overflow",
-                originalUrl: 'https://stackoverflow.com',
-                shortenedUrl: 'ghi789',
-                clicks: 456,
-                createdAt: '2024-01-12T14:20:00Z'
-            },
-            {
-                _id: '5',
-                name: "React Documentation",
-                originalUrl: 'https://react.dev',
-                shortenedUrl: 'jkl012',
-                clicks: 763,
-                createdAt: '2024-01-11T11:45:00Z'
-            },
-            {
-                _id: '6',
-                name: "TypeScript Handbook",
-                originalUrl: 'https://www.typescriptlang.org/docs',
-                shortenedUrl: 'mno345',
-                clicks: 1289,
-                createdAt: '2024-01-10T16:30:00Z'
-            },
-            {
-                _id: '7',
-                name: "MDN Web Docs",
-                originalUrl: 'https://developer.mozilla.org',
-                shortenedUrl: 'pqr678',
-                clicks: 345,
-                createdAt: '2024-01-09T13:15:00Z'
-            },
-            {
-                _id: '8',
-                name: "CSS Tricks",
-                originalUrl: 'https://css-tricks.com',
-                shortenedUrl: 'stu901',
-                clicks: 967,
-                createdAt: '2024-01-08T10:00:00Z'
-            },
-            {
-                _id: '9',
-                name: "npm Registry",
-                originalUrl: 'https://www.npmjs.com',
-                shortenedUrl: 'vwx234',
-                clicks: 234,
-                createdAt: '2024-01-07T15:30:00Z'
-            },
-            {
-                _id: '10',
-                name: "VS Code",
-                originalUrl: 'https://code.visualstudio.com',
-                shortenedUrl: 'yza567',
-                clicks: 1876,
-                createdAt: '2024-01-06T12:45:00Z'
-            }
-        ];
-        
-        setTimeout(() => {
-            setUrls(mockUrls);
-            setLoading(false);
-        }, 1000);
+        fetchURLs();
+
     }, []);
 
-    const handleDelete = (id: string) => {
-        setUrls(urls.filter(url => url._id !== id));
+    const handleDelete = async (id: string) => {
+        try {
+            await deleteURL(id);
+            
+            setURLList(URLList.filter(url => url._id !== id));
+            
+            console.log('URL deleted successfully');
+        } catch (error) {
+            console.error('Failed to delete URL:', error);
+            alert('Failed to delete URL. Please try again.');
+        } 
     };
  
-    const filteredUrls = urls.filter(url=> 
+    const filteredUrls = URLList.filter(url=> 
         url.name.toLowerCase().includes(query.toLowerCase())
     )
 
     const handleIsModalOpen = () => {
-        setIsModalOpen(!isModalOpen)
+        setIsAddModalOpen(!isAddModalOpen)
+    }
+
+    const handleSubmitAddURL = async (e:React.FormEvent) => {
+        e.preventDefault(); 
+    
+        try {
+            if (!modalURLName.trim() || !modalOriginalURL.trim() || !modalShortenedURL.trim()) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            const urlData = {
+                name: modalURLName,
+                originalUrl: modalOriginalURL,
+                shortenedUrl: modalShortenedURL
+            };
+
+            const result = await addURL(urlData);
+            
+            setURLList([result, ...URLList]); 
+
+            setModalURLName("");
+            setModalOriginalURL("");
+            setModalShortenedURL("");
+            setIsAddModalOpen(false);
+            
+            console.log('URL added successfully:', result);
+        } catch (error) {
+            console.error('Failed to add URL:', error);
+            alert('Failed to add URL. Please try again.');
+        } 
+    }
+
+    const handleIsEditModalOpen = (URLName:string,OriginalURL:string,ShortenedURL:string,URLId:string) => {
+        setModalURLName(URLName);
+        setModalOriginalURL(OriginalURL);
+        setModalShortenedURL(ShortenedURL);
+        setURLToEdit(URLId);
+        setIsEditModalOpen(!isEditModalOpen)
+    }
+
+    const handleSubmitEditURL = async (e:React.FormEvent) => {
+        e.preventDefault(); 
+    
+        try {
+            if (!modalURLName.trim() || !modalOriginalURL.trim() || !modalShortenedURL.trim()) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            const urlData = {
+                name: modalURLName,
+                originalUrl: modalOriginalURL,
+                shortenedUrl: modalShortenedURL
+            };
+
+            const result = await editURL(urlData, URLToEdit);
+            
+            setURLList(URLList.map(url => 
+                url._id === URLToEdit ? result : url
+            ));
+
+
+            setModalURLName("");
+            setModalOriginalURL("");
+            setModalShortenedURL("");
+            setIsEditModalOpen(false);
+            
+            console.log('URL edited successfully:', result);
+        } catch (error) {
+            console.error('Failed to edit URL:', error);
+            alert('Failed to edit URL. Please try again.');
+        } 
     }
 
     if (loading) {
@@ -160,7 +176,7 @@ const UrlList: React.FC = () => {
                     </div>
 
                     <div className="grid-body">
-                        {urls.length === 0 ? (
+                        {URLList.length === 0 ? (
                             <div className="empty-state">
                                 <p>No URLs found. Create your first short URL!</p>
                             </div>
@@ -170,6 +186,7 @@ const UrlList: React.FC = () => {
                                     key={url._id}
                                     url={url}
                                     onDelete={handleDelete}
+                                    onEditClick={handleIsEditModalOpen}
                                 />
                             ))
                         )}
@@ -178,8 +195,8 @@ const UrlList: React.FC = () => {
             </div>
 
 
-            <Modal isOpen={isModalOpen} onClose={handleIsModalOpen} header="Add URL">
-                <form>
+            <Modal isOpen={isAddModalOpen} onClose={handleIsModalOpen} header="Add URL">
+                <form onSubmit={handleSubmitAddURL}>
                     <div className="url-input-group">
                         <input 
                             placeholder="URL Name"
@@ -200,7 +217,31 @@ const UrlList: React.FC = () => {
                             Submit
                         </button>
                     </div>
-                    
+                </form>
+            </Modal>
+
+            <Modal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)} header="Edit URL">
+                <form onSubmit={handleSubmitEditURL}>
+                    <div className="url-input-group">
+                        <input 
+                            placeholder="URL Name"
+                            value={modalURLName}
+                            onChange={(e) => setModalURLName(e.target.value)}
+                            type="text"/>
+                        <input 
+                            placeholder="Original URL"
+                            value={modalOriginalURL}
+                            onChange={(e) => setModalOriginalURL(e.target.value)}
+                            type="text"/>
+                        <input 
+                            placeholder="Shortened URL"
+                            value={modalShortenedURL}
+                            onChange={(e) => setModalShortenedURL(e.target.value)}
+                            type="text"/>
+                        <button type="submit" className="url-input-button">
+                            Submit
+                        </button>
+                    </div>
                 </form>
             </Modal>
         </div>

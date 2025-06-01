@@ -1,5 +1,4 @@
-import type { loginUserDetails } from "../types/loginUser";
-import type { newUser } from "../types/newUser";
+
 import api from "./api";
 import Cookies from "js-cookie"
 

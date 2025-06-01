@@ -52,4 +52,15 @@ export class urlController{
             res.status(400).json({error: error.message});
         }
     }
+
+    async update(req: Request, res:Response){
+        try{
+            const urlId = req.params.id;
+            const updateData = req.body;
+            const result = await this.urlService.update(urlId, updateData);
+            return res.status(200).json(result)
+        }catch (error){
+            res.status(400).json({error: error.message});
+        }
+    }
 }

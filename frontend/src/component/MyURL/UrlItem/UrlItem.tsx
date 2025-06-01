@@ -1,5 +1,6 @@
 import React from 'react';
 import './UrlItem.css';
+import Modal from '../../Modal/Modal';
 
 interface UrlItemProps {
     url: {
@@ -11,9 +12,11 @@ interface UrlItemProps {
         createdAt: string;
     };
     onDelete: (id: string) => void;
+    onEditClick: (URLName:string,OriginalURL:string,ShortenedURL:string,URLId:string) => void;
 }
 
-const UrlItem: React.FC<UrlItemProps> = ({ url, onDelete }) => {
+const UrlItem: React.FC<UrlItemProps> = ({ url, onDelete, onEditClick }) => {
+    
     const formatDate = (dateString: string) => {
         return new Date(dateString).toLocaleDateString('en-US', {
             year: 'numeric',
@@ -85,6 +88,7 @@ const UrlItem: React.FC<UrlItemProps> = ({ url, onDelete }) => {
                 <button 
                     className="edit-btn"
                     title="Edit URL"
+                    onClick={() => onEditClick(url.name,url.originalUrl,url.shortenedUrl,url._id)}
                 >
                     ✏️
                 </button>

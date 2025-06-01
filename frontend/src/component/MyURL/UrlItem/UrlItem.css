@@ -1,6 +1,12 @@
 .url-item-grid {
     display: grid;
-    grid-template-columns: 235px 400px 400px 80px 120px 100px; 
+    grid-template-columns: 
+        minmax(120px, 1.5fr)  
+        minmax(150px, 2fr)     
+        minmax(150px, 2fr)   
+        minmax(60px, 0.8fr) 
+        minmax(90px, 1.2fr)   
+        minmax(80px, 1fr);     
     border-bottom: 1px solid #e9ecef;
     transition: background-color 0.2s ease;
 }

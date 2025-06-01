@@ -14,7 +14,7 @@ router.post('/login',(req,res) => {
     controller.login(req,res);
 })
 
-router.post('/edit',auth,(req,res) => {
+router.put('/edit',auth,(req,res) => {
     controller.editProfile(req,res);
 })
 
