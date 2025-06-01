@@ -49,6 +49,7 @@ export class userService{
             id:user._id,
             email:user.email,
             username:user.username,
+            profilePictureURL:user.profilePictureURL,
             token
         }
     }

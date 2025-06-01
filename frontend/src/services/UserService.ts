@@ -30,6 +30,8 @@ export const loginUser = async (loginUserDetails: loginUserDetails) => {
           Cookies.set('token', response.data.token);
       }
 
+      console.log(response.data)
+
       localStorage.setItem('username',response.data.username)
       localStorage.setItem('profilePictureURL',response.data.profilePictureURL)
       localStorage.setItem('email',response.data.email)

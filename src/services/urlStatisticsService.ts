@@ -7,7 +7,7 @@ export class urlStatisticsService{
     
 
     async getStatistics(userId:string){
-        
+
         const numberOfURLs = await this.getNumberOfURLs(userId)
         const numberOfClicksThisMonth = await this.getNumberOfClicksThisMonth(userId)
         const numberOfClicksLast12Months = await this.getNumberOfClicksLast12Months(userId)
@@ -24,7 +24,7 @@ export class urlStatisticsService{
     }
 
     async getNumberOfURLs(userId:string){
-        const numberOfURL = Url.countDocuments({_id:userId})
+        const numberOfURL = Url.countDocuments({User:userId})
         return numberOfURL;
     }
 
