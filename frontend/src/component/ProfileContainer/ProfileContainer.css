@@ -34,7 +34,7 @@
     margin-top:2rem;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
     gap: 1.5rem;
     margin-bottom: 2rem;
 }
@@ -58,4 +58,9 @@
     background-color:#B9D4AA;
     font-weight:700;
     color:white;
+}
+
+.edit-profile-picture-url{
+    grid-column-start:1;
+    grid-column-end:3;
 }
