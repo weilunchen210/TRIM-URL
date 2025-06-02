@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import "./LoginForm.css"
 import { Link, useNavigate } from 'react-router'
-import { loginUser } from '../../services/UserService'
+import { dummyLogin, loginUser } from '../../services/UserService'
 // import { dummyLogin, loginUser } from '../../services/userService';
 
 
@@ -19,6 +19,21 @@ function  LoginForm() {
         try {
 
             await loginUser(userDetails);
+            navigate('/dashboard'); 
+
+        } catch (error) {
+
+            alert('Login failed')
+            console.error('Login failed:', error);
+
+        }
+    }
+
+    const handleDummySubmit = async(e:React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        try {
+
+            await dummyLogin();
             navigate('/dashboard'); 
 
         } catch (error) {
@@ -72,7 +87,7 @@ function  LoginForm() {
                     </input>
                 </div>
                 <div className="login-submit">
-                    <button className="button dummy-login-button">
+                    <button className="button dummy-login-button" onClick={handleDummySubmit}>
                         Dummy Login
                     </button>
                 </div>

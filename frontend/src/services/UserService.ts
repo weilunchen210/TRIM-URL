@@ -71,3 +71,25 @@ export const editUser = async (editProfileRequest: editProfileRequest) => {
 
   }
 }
+
+
+export const dummyLogin = async () => {
+    try{
+      const response = await api.get('/user/dummyLogin')
+      
+      if (response.data.token) {
+          Cookies.set('token', response.data.token);
+      }
+
+      localStorage.setItem('username',response.data.username)
+      localStorage.setItem('profilePictureURL',response.data.profilePictureURL)
+      localStorage.setItem('email',response.data.email)
+      
+      return response.data
+    }catch (error) {
+    
+        console.error('Error logging in: ', error);
+    throw error;
+
+  }
+}

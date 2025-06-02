@@ -42,4 +42,13 @@ export class userController{
         }
     }
 
+    async dummyLogin(req:Request, res:Response){
+        try{
+            const result = await this.userService.dummyLogin();
+            return res.status(201).json(result);
+        }catch (error){
+            res.status(400).json({error: error.message});
+        }
+    }
+
 }

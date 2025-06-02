@@ -18,4 +18,8 @@ router.put('/edit',auth,(req,res) => {
     controller.editProfile(req,res);
 })
 
+router.get('/dummyLogin',(req,res) => {
+    controller.dummyLogin(req,res);
+})
+
 export default router;

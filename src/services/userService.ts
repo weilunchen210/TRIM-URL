@@ -54,6 +54,43 @@ export class userService{
         }
     }
 
+    async dummyLogin(){
+
+        try {
+        const dummyEmail = "dummy@test.com";
+        
+        let user = await User.findOne({ email: dummyEmail });
+        
+        if (!user) {
+            user = new User({
+                email: dummyEmail,
+                username: "DummyUser",
+                password: "password123",
+                profilePictureURL: "https://img.icons8.com/?size=100&id=7820&format=png&color=000000"
+            });
+            
+            await user.save();
+        }
+        
+        const token = jwt.sign(
+            { id: user._id.toString() },
+            JWT_SECRET,
+            { expiresIn: JWT_EXPIRES_IN } as jwt.SignOptions
+        );
+        
+        return {
+            id: user._id,
+            email: user.email,
+            username: user.username,
+            profilePictureURL: user.profilePictureURL,
+            token
+        };
+        
+        } catch (error) {
+        throw new Error(`Dummy login failed: ${error.message}`);
+    }
+    }
+
     async editProfile(updateData:editProfileDto, userId:string){
         try {
         
