@@ -29,8 +29,7 @@ function  LoginForm() {
         }
     }
 
-    const handleDummySubmit = async(e:React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    const handleDummySubmit = async() => {
         try {
 
             await dummyLogin();
