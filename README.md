@@ -118,8 +118,6 @@ GET /statistics - Get user analytics (requires auth)
 
 ![image](https://github.com/user-attachments/assets/983b3198-3bb8-4be2-bd37-3d811aaf952c)
 
-![image](https://github.com/user-attachments/assets/3a245793-962c-45bf-a25c-3f372cc43de0)
-
 ![image](https://github.com/user-attachments/assets/11cf2a36-0558-4aa2-a7c4-6dfc872da606)
 
 ![image](https://github.com/user-attachments/assets/69b2f6f4-41ed-4977-823c-b40982f768e4)
