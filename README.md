@@ -47,7 +47,9 @@ A full-stack URL shortener application that allows users to create, manage, and 
 
 2. **Install backend dependencies**
    ```bash
+   cd backend
    npm install
+   cd ..
    ```
 
 3. **Install frontend dependencies**
@@ -61,13 +63,19 @@ A full-stack URL shortener application that allows users to create, manage, and 
    
    Create a `.env` file in the root directory:
    ```env
+   # MongoDB URL
    MONGODB_URL=
+
+   # Secret for JWT
    JWT_SECRET=
+
+   # Expiry for JWT 
    JWT_EXPIRES_IN=
    ```
 
    Create a `.env` file in the frontend directory:
    ```env
+   # Backend's API URL
    VITE_API_URL=
    ```
 
@@ -78,6 +86,7 @@ A full-stack URL shortener application that allows users to create, manage, and 
    
    Backend (from root directory):
    ```bash
+   cd backend
    npm run dev
    ```
    
