@@ -85,17 +85,17 @@ function  LoginForm() {
                         value="Login">
                     </input>
                 </div>
-                <div className="login-submit">
-                    <button className="button dummy-login-button" onClick={handleDummySubmit}>
-                        Dummy Login
-                    </button>
-                </div>
-                <div className="register">
-                    <p>
-                        Don't have an account? <Link to="/register">Register</Link>
-                    </p>
-                </div>
             </form>
+            <div className="dummy-login-submit">
+                <button className="button dummy-login-button" onClick={handleDummySubmit}>
+                    Dummy Login
+                </button>
+            </div>
+            <div className="register">
+                <p>
+                    Don't have an account? <Link to="/register">Register</Link>
+                </p>
+            </div>
         </div>
       </div>
     </div>
