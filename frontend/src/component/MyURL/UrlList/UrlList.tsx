@@ -91,9 +91,20 @@ const UrlList: React.FC = () => {
             setIsAddModalOpen(false);
             
             console.log('URL added successfully:', result);
-        } catch (error) {
-            console.error('Failed to add URL:', error);
-            alert('Failed to add URL. Please try again.');
+        } catch (error:any) {
+            if (error.response?.data?.error) {
+            const errorMessage = error.response.data.error;
+            
+            if (errorMessage.includes('malicious') || errorMessage.includes('flagged')) {
+                alert(`🚫 Security Alert: ${errorMessage}`);
+            } else {
+                alert(`❌ Error: ${errorMessage}`);
+            }
+            } else if (error.message) {
+                alert(`❌ Error: ${error.message}`);
+            } else {
+                alert('❌ Failed to add URL. Please try again.');
+            }
         } 
     }
 

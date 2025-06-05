@@ -61,7 +61,7 @@ A full-stack URL shortener application that allows users to create, manage, and 
 
 4. **Environment Setup**
    
-   Create a `.env` file in the root directory:
+   Create a `.env` file in the backend directory:
    ```env
    # MongoDB URL
    MONGODB_URL=
@@ -71,6 +71,9 @@ A full-stack URL shortener application that allows users to create, manage, and 
 
    # Expiry for JWT 
    JWT_EXPIRES_IN=
+
+   # API KEY for Google Safe Browsing API
+   GOOGLE_SAFE_BROWSING_API_KEY=
    ```
 
    Create a `.env` file in the frontend directory:
