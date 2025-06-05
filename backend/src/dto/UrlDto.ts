@@ -1,7 +1,7 @@
 
 
 export class UrlDto{
-    name: String
-    originalUrl: String
-    shortenedUrl: String
+    name: string
+    originalUrl: string
+    shortenedUrl: string
 }

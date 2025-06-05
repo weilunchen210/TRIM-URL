@@ -2,11 +2,26 @@ import { UrlDto } from '../dto/UrlDto.js';
 import Url from '../models/url.js'
 import UrlClickHistory from '../models/urlClickHistory.js';
 import User from '../models/user.js';
+import { safeBrowsingService, SafetyCheckResult } from './urlCheckService.js';
 
 export class urlService{
     
 
     async save(input: UrlDto, userId:string) {
+
+        if (!input.originalUrl.startsWith('http://') && !input.originalUrl.startsWith('https://')) {
+            input.originalUrl = 'https://' + input.originalUrl;
+        }
+
+        const safetyCheck: SafetyCheckResult = await safeBrowsingService.checkUrl(input.originalUrl);
+        
+        if (!safetyCheck.isSafe) {
+                const threatTypes = safetyCheck.threats?.join(', ') || 'Unknown threats';
+                console.log(`🚫 BLOCKING malicious URL: ${input.originalUrl}`);
+                
+                throw new Error(`🚫 URL is flagged as malicious. Threats detected: ${threatTypes}`);
+            }
+
         const url = new Url({
             name:input.name,
             originalUrl: input.originalUrl,
