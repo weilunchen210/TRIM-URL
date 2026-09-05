@@ -31,7 +31,7 @@ function DashboardContainer(){
 
     const handleRefresh = () => {
         setError(false)
-        fetchStatistics
+        fetchStatistics();
     }
 
     if (loading) {

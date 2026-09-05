@@ -52,8 +52,7 @@ function ProfileContainer(){
                 profilePictureURL
             };
 
-            const response = await editUser(formData);
-            
+            await editUser(formData);
             
             alert('Profile updated successfully!');
             

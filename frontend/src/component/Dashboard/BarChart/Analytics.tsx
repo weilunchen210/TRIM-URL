@@ -2,57 +2,6 @@ import React, { PureComponent } from 'react';
 import { BarChart, Bar, ResponsiveContainer, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Rectangle } from 'recharts';
 import type { MonthlyData } from '../../../types/statistics';
 
-const data = [
-    {
-        name: 'January',
-        clicks: 1547,
-    },
-    {
-        name: 'February',
-        clicks: 2134,
-    },
-    {
-        name: 'March',
-        clicks: 1892,
-    },
-    {
-        name: 'April',
-        clicks: 2456,
-    },
-    {
-        name: 'May',
-        clicks: 1763,
-    },
-    {
-        name: 'June',
-        clicks: 2890,
-    },
-    {
-        name: 'July',
-        clicks: 3245,
-    },
-    {
-        name: 'August',
-        clicks: 2967,
-    },
-    {
-        name: 'September',
-        clicks: 2234,
-    },
-    {
-        name: 'October',
-        clicks: 1876,
-    },
-    {
-        name: 'November',
-        clicks: 2456,
-    },
-    {
-        name: 'December',
-        clicks: 1923,
-    },
-];
-
 interface AnalyticsProps{
     data:MonthlyData[]
 }

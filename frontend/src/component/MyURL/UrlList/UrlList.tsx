@@ -5,14 +5,23 @@ import Modal from '../../Modal/Modal';
 import type { URLInfo } from '../../../types/URLInfo';
 import { addURL, deleteURL, editURL, getURLList } from '../../../services/UrlService';
 
-interface UrlData {
-    _id: string;
-    name:string;
-    originalUrl: string;
-    shortenedUrl: string;
-    clicks:number;
-    createdAt: string;
-}
+const getResponseError = (error: unknown): string | undefined => {
+    if (typeof error !== 'object' || error === null || !('response' in error)) {
+        return undefined;
+    }
+
+    const response = error.response;
+    if (typeof response !== 'object' || response === null || !('data' in response)) {
+        return undefined;
+    }
+
+    const data = response.data;
+    if (typeof data !== 'object' || data === null || !('error' in data)) {
+        return undefined;
+    }
+
+    return typeof data.error === 'string' ? data.error : undefined;
+};
 
 const UrlList: React.FC = () => {
     const [query,setQuery] = useState("")
@@ -24,7 +33,7 @@ const UrlList: React.FC = () => {
     const [modalURLName, setModalURLName] = useState("")
     const [URLList, setURLList] = useState<URLInfo[]>([])
     const [URLToEdit, setURLToEdit] = useState("")
-    const [getURLError,setGetURLError] = useState(false)
+    const [,setGetURLError] = useState(false)
 
     const fetchURLs = async() => {
         try{
@@ -91,17 +100,16 @@ const UrlList: React.FC = () => {
             setIsAddModalOpen(false);
             
             console.log('URL added successfully:', result);
-        } catch (error:any) {
-            if (error.response?.data?.error) {
-            const errorMessage = error.response.data.error;
-            
-            if (errorMessage.includes('malicious') || errorMessage.includes('flagged')) {
-                alert(`🚫 Security Alert: ${errorMessage}`);
-            } else {
-                alert(`❌ Error: ${errorMessage}`);
-            }
-            } else if (error.message) {
-                alert(`❌ Error: ${error.message}`);
+        } catch (error: unknown) {
+            const errorMessage = getResponseError(error);
+
+            if (errorMessage) {
+                
+                if (errorMessage.includes('malicious') || errorMessage.includes('flagged')) {
+                    alert(`🚫 Security Alert: ${errorMessage}`);
+                } else {
+                    alert(`❌ Error: ${errorMessage}`);
+                }
             } else {
                 alert('❌ Failed to add URL. Please try again.');
             }

@@ -1,6 +1,5 @@
 import React from 'react';
 import './UrlItem.css';
-import Modal from '../../Modal/Modal';
 
 interface UrlItemProps {
     url: {
