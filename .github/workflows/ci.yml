@@ -29,6 +29,9 @@ jobs:
       - name: Run typecheck
         run: npx tsc --noEmit
 
+      - name: Run Eslint check
+      - run: npx eslint src/
+
   backend:
     runs-on: ubuntu-latest
     defaults:
