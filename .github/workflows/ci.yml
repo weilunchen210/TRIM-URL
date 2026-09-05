@@ -30,7 +30,7 @@ jobs:
         run: npx tsc --noEmit
 
       - name: Run Eslint check
-      - run: npx eslint src/
+        run: npx eslint src/
 
   backend:
     runs-on: ubuntu-latest
