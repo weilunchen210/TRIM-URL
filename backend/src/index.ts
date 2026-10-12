@@ -1,12 +1,16 @@
+import 'dotenv/config';
 import express from 'express';
 import mongoose from 'mongoose';
 import url  from './routes/urlRoutes.js';
 import user from './routes/userRoutes.js'
 import urlStatistics from './routes/urlStatisticsRoutes.js'
-import dotenv from 'dotenv';
-import cors from 'cors'; 
+import cors from 'cors';
 
-dotenv.config();
+const MONGODB_URL = process.env.MONGODB_URL;
+if (!MONGODB_URL) {
+    throw new Error('MONGODB_URL environment variable is required');
+}
+
 const app = express();
 app.use(express.json());
 
@@ -21,10 +25,7 @@ app.use('/url', url);
 app.use('/user', user);
 app.use('/statistics', urlStatistics);
 
-console.log(process.env.MONGODB_URL)
-
-mongoose.connect(process.env.MONGODB_URL, {
-})
+mongoose.connect(MONGODB_URL)
 
 app.listen(3000, () => {
     console.log('Server is running on port 3000');

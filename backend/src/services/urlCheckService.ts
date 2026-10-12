@@ -26,7 +26,6 @@ export class SafeBrowsingService {
     async checkUrl(url: string): Promise<SafetyCheckResult> {
         try {
             const GOOGLE_API_KEY = process.env.GOOGLE_SAFE_BROWSING_API_KEY;
-            console.log(GOOGLE_API_KEY)
             if (!GOOGLE_API_KEY || GOOGLE_API_KEY === 'your_api_key_here') {
                 console.warn('Google Safe Browsing API key not configured properly');
                 return { 
