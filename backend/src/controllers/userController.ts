@@ -14,8 +14,8 @@ export class userController{
     async register(req: Request, res:Response){
         try{
             const input: UserDto = req.body;
-            const result = await this.userService.save(input);
-            return res.status(201).json(result);
+            await this.userService.save(input);
+            return res.status(201).json({message: "User registered successfully"});
         }catch (error){
             res.status(400).json({error: error.message});
         }

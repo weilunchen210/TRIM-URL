@@ -16,15 +16,15 @@ export class userService{
                     throw new Error('User with this email already exists');
                 }
 
-        const url = new User({
+        const user = new User({
             email: input.email, 
             username: input.username,
             password: input.password,
             profilePictureURL: input.profilePictureURL
         }
         );
-        const savedModel =  await url.save();
-        return savedModel
+        await user.save();
+        return;
     }
 
     async login(input:LoginDto){
