@@ -15,14 +15,7 @@ export class urlService{
 
         await this.validateIfShortenedUrlExists(input.shortenedUrl);
 
-        const safetyCheck: SafetyCheckResult = await safeBrowsingService.checkUrl(input.originalUrl);
-        
-        if (!safetyCheck.isSafe) {
-                const threatTypes = safetyCheck.threats?.join(', ') || 'Unknown threats';
-                console.log(`🚫 BLOCKING malicious URL: ${input.originalUrl}`);
-                
-                throw new Error(`🚫 URL is flagged as malicious. Threats detected: ${threatTypes}`);
-            }
+        await this.assertSafe(input.originalUrl);
 
         const url = new Url({
             name:input.name,
@@ -34,10 +27,24 @@ export class urlService{
         return savedModel
     }
 
-    async validateIfShortenedUrlExists(shortenedUrl: string) {
-        const existingUrl = await Url.findOne({shortenedUrl: shortenedUrl});
+    async validateIfShortenedUrlExists(shortenedUrl: string, excludeId?: string) {
+        const filter = excludeId
+            ? { shortenedUrl, _id: { $ne: excludeId } }
+            : { shortenedUrl };
+
+        const existingUrl = await Url.findOne(filter);
         if (existingUrl != null) {
             throw new Error("Shortened URL already exists");
+        }
+    }
+
+    private async assertSafe(url: string) {
+        const safetyCheck: SafetyCheckResult = await safeBrowsingService.checkUrl(url);
+        if (!safetyCheck.isSafe) {
+            const threatTypes = safetyCheck.threats?.join(', ') || 'Unknown threats';
+            console.log(`URL is flagged as malicious. Threats detected: ${threatTypes} for malicious URL: ${url}`);
+            
+            throw new Error(`🚫 URL is flagged as malicious. Threats detected: ${threatTypes}`);
         }
     }
 
@@ -80,6 +87,11 @@ export class urlService{
     }
 
     async update(id: string, input: any) {     
+
+        await this.validateIfShortenedUrlExists(input.shortenedUrl);
+
+        await this.assertSafe(input.originalUrl);
+
         const result = await Url.findByIdAndUpdate(
             id,
             { ...input }, 
