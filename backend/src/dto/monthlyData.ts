@@ -1,6 +1,5 @@
-export class monthyData{
+export interface monthyData {
     year: number;
     month: string;
-    clicks: number
+    clicks: number;
 }
-

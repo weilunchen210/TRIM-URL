@@ -1,7 +1,6 @@
-
-export class UserDto {
+export interface UserDto {
     email: string;
     username: string;
     password: string;
-    profilePictureURL:string;
+    profilePictureURL?: string;
 }
