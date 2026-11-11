@@ -13,6 +13,8 @@ export class urlService{
             input.originalUrl = 'https://' + input.originalUrl;
         }
 
+        await this.validateIfShortenedUrlExists(input.shortenedUrl);
+
         const safetyCheck: SafetyCheckResult = await safeBrowsingService.checkUrl(input.originalUrl);
         
         if (!safetyCheck.isSafe) {
@@ -30,6 +32,13 @@ export class urlService{
         });
         const savedModel =  await url.save();
         return savedModel
+    }
+
+    async validateIfShortenedUrlExists(shortenedUrl: string) {
+        const existingUrl = await Url.findOne({shortenedUrl: shortenedUrl});
+        if (existingUrl != null) {
+            throw new Error("Shortened URL already exists");
+        }
     }
 
     async getOriginalLink(input: string) {
