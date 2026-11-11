@@ -6,7 +6,7 @@ import { LoginDto } from "../dto/loginDto";
 import { JWT_EXPIRES_IN, JWT_SECRET } from "../config/jwt.config";
 import { editProfileDto } from "../dto/editProfileDto";
 
-export class userService{
+export class userService {
     
 
     async save(input: UserDto) {
@@ -27,7 +27,7 @@ export class userService{
         return;
     }
 
-    async login(input:LoginDto){
+    async login(input:LoginDto) {
 
         const user = await User.findOne({ email: input.email });
         if (!user) {
@@ -54,7 +54,7 @@ export class userService{
         }
     }
 
-    async dummyLogin(){
+    async dummyLogin() {
 
         try {
         const dummyEmail = "dummy@test.com";
@@ -91,7 +91,7 @@ export class userService{
     }
     }
 
-    async editProfile(updateData:editProfileDto, userId:string){
+    async editProfile(updateData:editProfileDto, userId:string) {
         try {
         
         const existingUser = await User.findById(userId);

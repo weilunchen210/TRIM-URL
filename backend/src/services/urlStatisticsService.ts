@@ -3,17 +3,17 @@ import { UrlDto } from '../dto/UrlDto.js';
 import Url from '../models/url.js'
 import UrlClickHistory from '../models/urlClickHistory.js';
 
-export class urlStatisticsService{
+export class urlStatisticsService {
     
 
-    async getStatistics(userId:string){
+    async getStatistics(userId:string) {
 
         const numberOfURLs = await this.getNumberOfURLs(userId)
         const numberOfClicksThisMonth = await this.getNumberOfClicksThisMonth(userId)
         const numberOfClicksLast12Months = await this.getNumberOfClicksLast12Months(userId)
         const totalClicks = await this.calculateTotalNumberOfClicks(numberOfClicksLast12Months)
 
-        const statistics ={
+        const statistics = {
             numberOfURLs,
             numberOfClicksThisMonth,
             numberOfClicksLast12Months,
@@ -23,7 +23,7 @@ export class urlStatisticsService{
         return statistics
     }
 
-    async getNumberOfURLs(userId:string){
+    async getNumberOfURLs(userId:string) {
         const numberOfURL = Url.countDocuments({User:userId})
         return numberOfURL;
     }
@@ -98,11 +98,11 @@ export class urlStatisticsService{
         return monthlyData;
     }
 
-    async calculateTotalNumberOfClicks(monthlyData:monthyData[]){
+    async calculateTotalNumberOfClicks(monthlyData:monthyData[]) {
 
         let TotalClicks = 0
 
-        for(let i = 0; i < monthlyData.length; i++){
+        for (let i = 0; i < monthlyData.length; i++) {
             TotalClicks = TotalClicks + monthlyData[i].clicks
         }
 

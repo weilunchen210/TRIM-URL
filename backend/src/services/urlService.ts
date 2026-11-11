@@ -4,7 +4,7 @@ import UrlClickHistory from '../models/urlClickHistory.js';
 import User from '../models/user.js';
 import { safeBrowsingService, SafetyCheckResult } from './urlCheckService.js';
 
-export class urlService{
+export class urlService {
     
 
     async save(input: UrlDto, userId:string) {
@@ -44,7 +44,7 @@ export class urlService{
             const threatTypes = safetyCheck.threats?.join(', ') || 'Unknown threats';
             console.log(`URL is flagged as malicious. Threats detected: ${threatTypes} for malicious URL: ${url}`);
             
-            throw new Error(`🚫 URL is flagged as malicious. Threats detected: ${threatTypes}`);
+            throw new Error(`URL is flagged as malicious. Threats detected: ${threatTypes}`);
         }
     }
 
@@ -55,7 +55,7 @@ export class urlService{
             {new:true}
         );
 
-        if(!savedModel){
+        if (!savedModel) {
             throw new Error("Shortened URL not found")
         }
 

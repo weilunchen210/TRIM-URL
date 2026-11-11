@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { BarChart, Bar, ResponsiveContainer, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Rectangle } from 'recharts';
 import type { MonthlyData } from '../../../types/statistics';
 
-interface AnalyticsProps{
+interface AnalyticsProps {
     data:MonthlyData[]
 }
 

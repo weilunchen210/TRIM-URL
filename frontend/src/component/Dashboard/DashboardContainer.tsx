@@ -6,7 +6,7 @@ import { getStatistics } from "../../services/UrlStatisticsService";
 import type { StatisticsResponse } from "../../types/statistics";
 
 
-function DashboardContainer(){
+function DashboardContainer() {
 
     const [loading, setLoading] = useState(true);
     const [statistics,setStatistics] = useState<StatisticsResponse|null>(null);
@@ -43,8 +43,8 @@ function DashboardContainer(){
     );
     }
 
-    if(!statistics){
-        if(error){
+    if (!statistics) {
+        if (error) {
             return(
             <div className="error-container">
                 <p>Failed to load statistics</p>

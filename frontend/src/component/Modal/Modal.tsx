@@ -1,13 +1,13 @@
 import "./Modal.css"
 
-interface ModalProps{
+interface ModalProps {
     isOpen:boolean;
     onClose: () => void;
     children: React.ReactNode
     header:string;
 }
 
-function Modal({isOpen, onClose, children, header}: ModalProps){
+function Modal({isOpen, onClose, children, header}: ModalProps) {
     if (!isOpen) return null;
 
     return (

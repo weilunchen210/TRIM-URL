@@ -24,7 +24,7 @@ export const registerUser = async (newUser:newUser) => {
 
 
 export const loginUser = async (loginUserDetails: loginUserDetails) => {
-    try{
+    try {
       const response = await api.post('/user/login', loginUserDetails)
       
       if (response.data.token) {
@@ -38,7 +38,7 @@ export const loginUser = async (loginUserDetails: loginUserDetails) => {
       localStorage.setItem('email',response.data.email)
       
       return response.data
-    }catch (error) {
+    } catch (error) {
     
         console.error('Error logging in: ', error);
     throw error;
@@ -47,7 +47,7 @@ export const loginUser = async (loginUserDetails: loginUserDetails) => {
 }
 
 export const editUser = async (editProfileRequest: editProfileRequest) => {
-    try{
+    try {
         const jwt = Cookies.get("token")
         const response = await api.put('/user/edit', editProfileRequest,{
             headers:{
@@ -64,7 +64,7 @@ export const editUser = async (editProfileRequest: editProfileRequest) => {
       localStorage.setItem('email',response.data.email)
       
       return response.data
-    }catch (error) {
+    } catch (error) {
     
         console.error('Error logging in: ', error);
     throw error;
@@ -74,7 +74,7 @@ export const editUser = async (editProfileRequest: editProfileRequest) => {
 
 
 export const dummyLogin = async () => {
-    try{
+    try {
       const response = await api.get('/user/dummyLogin')
       
       if (response.data.token) {
@@ -86,7 +86,7 @@ export const dummyLogin = async () => {
       localStorage.setItem('email',response.data.email)
       
       return response.data
-    }catch (error) {
+    } catch (error) {
     
         console.error('Error logging in: ', error);
     throw error;

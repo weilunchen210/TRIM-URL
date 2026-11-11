@@ -1,4 +1,4 @@
-export interface editProfileRequest{
+export interface editProfileRequest {
     email:string;
     currentPassword:string;
     newPassword:string;

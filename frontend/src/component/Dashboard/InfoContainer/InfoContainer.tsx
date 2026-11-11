@@ -1,13 +1,13 @@
 import "./InfoContainer.css"
 
-interface InfoContainerProps{
+interface InfoContainerProps {
     imageLink:string;
     infoHeader:string;
     infoContent:string;
     backgroundColor:string;
 }
 
-function InfoContainer({imageLink,infoHeader,infoContent,backgroundColor}:InfoContainerProps){
+function InfoContainer({imageLink,infoHeader,infoContent,backgroundColor}:InfoContainerProps) {
 
     return(
         <div className="container info-container">

@@ -36,14 +36,14 @@ const UrlList: React.FC = () => {
     const [,setGetURLError] = useState(false)
 
     const fetchURLs = async() => {
-        try{
+        try {
             setLoading(true)
             const urlList =await getURLList();
             setURLList(urlList)
-        }catch(error){
+        } catch (error) {
             setGetURLError(true)
             console.error('Error fetching URLs:' , error)
-        }finally{
+        } finally {
             setLoading(false);
         }
     }

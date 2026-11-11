@@ -5,7 +5,7 @@ import { editUser } from "../../services/UserService";
 
 
 
-function ProfileContainer(){
+function ProfileContainer() {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [currentPassword, setCurrentPassword] = useState("");

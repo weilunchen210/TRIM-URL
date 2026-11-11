@@ -16,10 +16,10 @@ const Sidebar = () => {
         const storedUsername = localStorage.getItem('username')
         const storedProfilePictureURL = localStorage.getItem('profilePictureURL')
 
-        if(storedUsername){
+        if (storedUsername) {
             setUsername(storedUsername)
         }
-        if(storedProfilePictureURL){
+        if (storedProfilePictureURL) {
             setProfilePictureURL(storedProfilePictureURL)
         }
 
