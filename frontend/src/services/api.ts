@@ -10,3 +10,6 @@ const api= axios.create({
 })
 
 export default api
+
+export const shortLinkFor = (code: string) =>
+    new URL(`${apiURL}/url/${code}`, window.location.origin).href

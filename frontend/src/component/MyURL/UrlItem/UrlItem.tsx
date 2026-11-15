@@ -1,5 +1,6 @@
 import React from 'react';
 import './UrlItem.css';
+import { shortLinkFor } from '../../../services/api';
 
 interface UrlItemProps {
     url: {
@@ -26,7 +27,7 @@ const UrlItem: React.FC<UrlItemProps> = ({ url, onDelete, onEditClick }) => {
 
     const copyToClipboard = async (text: string) => {
         try {
-            await navigator.clipboard.writeText(`http://localhost:3000/url/${text}`);
+            await navigator.clipboard.writeText(shortLinkFor(text));
             alert('Short URL copied to clipboard!');
         } catch (err) {
             console.error('Failed to copy: ', err);
@@ -63,7 +64,7 @@ const UrlItem: React.FC<UrlItemProps> = ({ url, onDelete, onEditClick }) => {
             <div className="grid-cell short-url">
                 <div className="short-url-container">
                     <span className="short-url-text">
-                        localhost:3000/url/{url.shortenedUrl}
+                        {shortLinkFor(url.shortenedUrl)}
                     </span>
                     <button 
                         className="copy-btn"
