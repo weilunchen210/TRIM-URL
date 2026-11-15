@@ -1,7 +1,7 @@
 
 import { Link, useLocation, useNavigate } from 'react-router';
 import Cookies from 'js-cookie'
-import './Sidebar.css';
+import './SideBar.css';
 import { useEffect, useState } from 'react';
 
 const Sidebar = () => {
