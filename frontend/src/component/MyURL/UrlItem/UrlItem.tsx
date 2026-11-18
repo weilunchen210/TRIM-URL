@@ -27,8 +27,19 @@ const UrlItem: React.FC<UrlItemProps> = ({ url, onDelete, onEditClick }) => {
 
     const copyToClipboard = async (text: string) => {
         try {
-            await navigator.clipboard.writeText(shortLinkFor(text));
-            alert('Short URL copied to clipboard!');
+            if (!navigator.clipboard) {
+                const textArea = document.createElement('textarea');
+                textArea.value = shortLinkFor(text);
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                alert('Short URL copied to clipboard!');
+            } else {            
+                await navigator.clipboard.writeText(shortLinkFor(text));
+                alert('Short URL copied to clipboard!');
+            }
         } catch (err) {
             console.error('Failed to copy: ', err);
         }
