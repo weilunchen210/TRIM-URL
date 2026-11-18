@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id                String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email             String   @unique(map: "users_email_unique") @db.VarChar(255)
+  username          String   @db.VarChar(100)
+  password          String   @db.VarChar(255)
+  profilePictureUrl String?  @map("profile_picture_url")
+  createdAt         DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  urls Url[]
+
+  @@map("users")
+}
+
+model Url {
+  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name         String   @db.VarChar(255)
+  originalUrl  String   @map("original_url")
+  shortenedUrl String   @unique(map: "urls_shortened_url_unique") @map("shortened_url") @db.VarChar(100)
+  userId       String   @map("user_id") @db.Uuid
+  clicks       Int      @default(0)
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  user         User              @relation(fields: [userId], references: [id], onDelete: Cascade, map: "urls_user_fk")
+  clickHistory UrlClickHistory[]
+
+  @@index([userId], map: "idx_urls_user_id")
+  @@map("urls")
+}
+
+model UrlClickHistory {
+  id          BigInt   @id @default(autoincrement())
+  urlId       String   @map("url_id") @db.Uuid
+  clickedDate DateTime @default(now()) @map("clicked_date") @db.Timestamptz(6)
+
+  url Url @relation(fields: [urlId], references: [id], onDelete: Cascade, map: "click_history_url_fk")
+
+  @@index([urlId, clickedDate], map: "idx_click_history_url_date")
+  @@map("url_click_history")
+}

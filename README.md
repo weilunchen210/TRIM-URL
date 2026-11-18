@@ -1,6 +1,6 @@
 # 🔗 Trim URL - URL Shortener
 
-A full-stack URL shortener application that allows users to create, manage, and track shortened URLs with comprehensive analytics. Created using the MERN tech stack
+A full-stack URL shortener application that allows users to create, manage, and track shortened URLs with comprehensive analytics. Built with React, Express, Node.js and PostgreSQL
 
 ## 🌟 Features
 
@@ -25,8 +25,8 @@ A full-stack URL shortener application that allows users to create, manage, and 
 - **Node.js** - Runtime environment
 - **Express.js** - Web framework
 - **TypeScript** - Type-safe server development
-- **MongoDB** - NoSQL database
-- **Mongoose** - MongoDB object modeling
+- **PostgreSQL** - Relational database
+- **Prisma** - ORM and migrations
 - **JWT** - Authentication tokens
 - **bcrypt** - Password hashing
 
@@ -34,7 +34,7 @@ A full-stack URL shortener application that allows users to create, manage, and 
 
 ### Prerequisites
 - Node.js (v18 or higher)
-- MongoDB (local or cloud instance)
+- PostgreSQL 13+ (local, cloud, or via `docker compose`)
 - npm or yarn package manager
 
 ### Installation
@@ -63,8 +63,8 @@ A full-stack URL shortener application that allows users to create, manage, and 
    
    Create a `.env` file in the backend directory:
    ```env
-   # MongoDB URL
-   MONGODB_URL=
+   # PostgreSQL connection string
+   DATABASE_URL=postgresql://user:password@localhost:5432/trimurl
 
    # Secret for JWT
    JWT_SECRET=
@@ -82,8 +82,14 @@ A full-stack URL shortener application that allows users to create, manage, and 
    VITE_API_URL=
    ```
 
-5. **Start MongoDB**
-   Make sure your MongoDB service is running if you're running it locally
+5. **Set up the database**
+   Make sure PostgreSQL is running (or start just the database with `docker compose up -d postgres`), then create the tables and generate the Prisma client:
+   ```bash
+   cd backend
+   npx prisma migrate deploy
+   npx prisma generate
+   ```
+   After changing `prisma/schema.prisma`, run `npx prisma migrate dev --name <change>` to create a new migration.
 
 6. **Run the application**
    

@@ -46,7 +46,8 @@ export class urlController{
     async delete(req: Request, res:Response){
         try{
             const { id } = req.params;
-            const result = await this.urlService.delete(id);
+            const userId = req.userId.id;
+            const result = await this.urlService.delete(id, userId);
             return res.status(200).json(result)
         }catch (error){
             res.status(400).json({error: error.message});
@@ -56,8 +57,9 @@ export class urlController{
     async update(req: Request, res:Response){
         try{
             const urlId = req.params.id;
-            const updateData = req.body;
-            const result = await this.urlService.update(urlId, updateData);
+            const userId = req.userId.id;
+            const updateData: UrlDto = req.body;
+            const result = await this.urlService.update(urlId, userId, updateData);
             return res.status(200).json(result)
         }catch (error){
             res.status(400).json({error: error.message});

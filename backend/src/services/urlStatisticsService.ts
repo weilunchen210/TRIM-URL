@@ -1,113 +1,62 @@
 import { monthyData } from '../dto/monthlyData.js';
-import { UrlDto } from '../dto/UrlDto.js';
-import Url from '../models/url.js'
-import UrlClickHistory from '../models/urlClickHistory.js';
+import { UrlRepository } from '../repositories/urlRepository.js';
+import { UrlClickHistoryRepository } from '../repositories/urlClickHistoryRepository.js';
 
-export class urlStatisticsService{
-    
+const SERVER_TIME_ZONE = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-    async getStatistics(userId:string){
+export class urlStatisticsService {
 
-        const numberOfURLs = await this.getNumberOfURLs(userId)
-        const numberOfClicksThisMonth = await this.getNumberOfClicksThisMonth(userId)
-        const numberOfClicksLast12Months = await this.getNumberOfClicksLast12Months(userId)
-        const totalClicks = await this.calculateTotalNumberOfClicks(numberOfClicksLast12Months)
+    constructor(
+        private readonly urlRepository = new UrlRepository(),
+        private readonly clickHistoryRepository = new UrlClickHistoryRepository(),
+    ) {}
 
-        const statistics ={
+    async getStatistics(userId: string) {
+
+        const [numberOfURLs, numberOfClicksLast12Months] = await Promise.all([
+            this.getNumberOfURLs(userId),
+            this.getNumberOfClicksLast12Months(userId),
+        ]);
+        const numberOfClicksThisMonth = numberOfClicksLast12Months[11].clicks;
+        const totalClicks = this.calculateTotalNumberOfClicks(numberOfClicksLast12Months);
+
+        const statistics = {
             numberOfURLs,
             numberOfClicksThisMonth,
             numberOfClicksLast12Months,
-            totalClicks 
+            totalClicks
         }
-        
+
         return statistics
     }
 
-    async getNumberOfURLs(userId:string){
-        const numberOfURL = Url.countDocuments({User:userId})
-        return numberOfURL;
+    async getNumberOfURLs(userId: string) {
+        return this.urlRepository.countByUser(userId);
     }
 
-    async getNumberOfClicksThisMonth(userId: string) {
-        
+    async getNumberOfClicksLast12Months(userId: string): Promise<monthyData[]> {
         const today = new Date();
-        
-        const startOfCurrentMonth = new Date(today.getFullYear(), today.getMonth(), 1, 0, 0);
-        
-        const endOfCurrentMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0, 23, 59);
+        const startOfRange = new Date(today.getFullYear(), today.getMonth() - 11, 1, 0, 0, 0, 0);
 
-        const userUrls = await Url.find({ User: userId }).select('_id');
-        const userUrlIds = userUrls.map(url => url._id);
+        const rows = await this.clickHistoryRepository.countByMonthForUser(userId, startOfRange, SERVER_TIME_ZONE);
+        const clicksByMonth = new Map(rows.map(row => [row.month, row.clicks]));
 
-        if (userUrlIds.length === 0) {
-            return 0; 
-        }
-
-        const clicksThisMonth = await UrlClickHistory.countDocuments({
-            Url: { $in: userUrlIds },
-            clickedDate: {
-                $gte: startOfCurrentMonth,
-                $lte: endOfCurrentMonth
-            }
-        });
-
-        return clicksThisMonth;
-    }
-
-    async getNumberOfClicksLast12Months(userId: string) {
-        const today = new Date();
-        const currentYear = today.getFullYear();
-        const currentMonth = today.getMonth(); 
-        
-        const monthlyData = [];
-
-        const userUrls = await Url.find({ User: userId }).select('_id');
-        const userUrlIds = userUrls.map(url => url._id);
-        
+        const monthlyData: monthyData[] = [];
         for (let i = 0; i < 12; i++) {
-            let targetMonth = currentMonth - 11 + i; 
-            let targetYear = currentYear;
-            
-            if (targetMonth < 0) {
-                targetMonth += 12;
-                targetYear -= 1;
-            }
+            const monthStart = new Date(startOfRange.getFullYear(), startOfRange.getMonth() + i, 1);
+            const key = `${monthStart.getFullYear()}-${String(monthStart.getMonth() + 1).padStart(2, '0')}`;
 
-            const startOfMonth = new Date(targetYear, targetMonth, 1, 0, 0, 0, 0);
-            const endOfMonth = new Date(targetYear, targetMonth + 1, 0, 23, 59, 59, 999);
-            
-            
-            let clicksForMonth = 0;
-            if (userUrlIds.length > 0) {
-                clicksForMonth = await UrlClickHistory.countDocuments({
-                    Url: { $in: userUrlIds },
-                    clickedDate: {
-                        $gte: startOfMonth,
-                        $lte: endOfMonth
-                    }
-                });
-            }
-            
             monthlyData.push({
-                year: targetYear,
-                month: startOfMonth.toLocaleString('default', { month: 'long' }),
-                clicks: clicksForMonth,
+                year: monthStart.getFullYear(),
+                month: monthStart.toLocaleString('default', { month: 'long' }),
+                clicks: clicksByMonth.get(key) ?? 0,
             });
         }
-        
+
         return monthlyData;
     }
 
-    async calculateTotalNumberOfClicks(monthlyData:monthyData[]){
-
-        let TotalClicks = 0
-
-        for(let i = 0; i < monthlyData.length; i++){
-            TotalClicks = TotalClicks + monthlyData[i].clicks
-        }
-
-        return TotalClicks
-    } 
-
-
+    calculateTotalNumberOfClicks(monthlyData: monthyData[]) {
+        return monthlyData.reduce((total, month) => total + month.clicks, 0);
+    }
 }

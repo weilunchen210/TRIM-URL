@@ -1,45 +1,59 @@
 import { UrlDto } from '../dto/UrlDto.js';
-import Url from '../models/url.js'
-import UrlClickHistory from '../models/urlClickHistory.js';
-import User from '../models/user.js';
+import { toUrlResponse } from '../dto/urlResponse.js';
+import { isUuid, isUniqueViolation } from '../db.js';
+import { UrlRepository } from '../repositories/urlRepository.js';
 import { safeBrowsingService, SafetyCheckResult } from './urlCheckService.js';
 
-export class urlService{
-    
+const DUPLICATE_SHORTENED_URL = 'Shortened URL already exists';
 
-    async save(input: UrlDto, userId:string) {
+export class urlService {
+
+    constructor(private readonly urlRepository = new UrlRepository()) {}
+
+    async save(input: UrlDto, userId: string) {
 
         if (!input.originalUrl.startsWith('http://') && !input.originalUrl.startsWith('https://')) {
             input.originalUrl = 'https://' + input.originalUrl;
         }
 
-        const safetyCheck: SafetyCheckResult = await safeBrowsingService.checkUrl(input.originalUrl);
-        
-        if (!safetyCheck.isSafe) {
-                const threatTypes = safetyCheck.threats?.join(', ') || 'Unknown threats';
-                console.log(`🚫 BLOCKING malicious URL: ${input.originalUrl}`);
-                
-                throw new Error(`🚫 URL is flagged as malicious. Threats detected: ${threatTypes}`);
-            }
+        await this.validateIfShortenedUrlExists(input.shortenedUrl);
 
-        const url = new Url({
-            name:input.name,
-            originalUrl: input.originalUrl,
-            User: userId,
-            shortenedUrl: input.shortenedUrl
-        });
-        const savedModel =  await url.save();
-        return savedModel
+        await this.assertSafe(input.originalUrl);
+
+        try {
+            const url = await this.urlRepository.create({
+                name: input.name,
+                originalUrl: input.originalUrl,
+                shortenedUrl: input.shortenedUrl,
+                userId,
+            });
+            return toUrlResponse(url);
+        } catch (error) {
+            if (isUniqueViolation(error)) throw new Error(DUPLICATE_SHORTENED_URL);
+            throw error;
+        }
+    }
+
+    async validateIfShortenedUrlExists(shortenedUrl: string, excludeId?: string) {
+        if (await this.urlRepository.existsByShortenedUrl(shortenedUrl, excludeId)) {
+            throw new Error(DUPLICATE_SHORTENED_URL);
+        }
+    }
+
+    private async assertSafe(url: string) {
+        const safetyCheck: SafetyCheckResult = await safeBrowsingService.checkUrl(url);
+        if (!safetyCheck.isSafe) {
+            const threatTypes = safetyCheck.threats?.join(', ') || 'Unknown threats';
+            console.log(`URL is flagged as malicious. Threats detected: ${threatTypes} for malicious URL: ${url}`);
+
+            throw new Error(`URL is flagged as malicious. Threats detected: ${threatTypes}`);
+        }
     }
 
     async getOriginalLink(input: string) {
-        const savedModel =  await Url.findOneAndUpdate(
-            {'shortenedUrl':input},
-            {$inc:{clicks:1}},
-            {new:true}
-        );
+        const savedModel = await this.urlRepository.recordClick(input);
 
-        if(!savedModel){
+        if (!savedModel) {
             throw new Error("Shortened URL not found")
         }
 
@@ -48,42 +62,51 @@ export class urlService{
         if (!originalUrl.startsWith('http://') && !originalUrl.startsWith('https://')) {
             originalUrl = 'https://' + originalUrl;
         }
-        
-        const urlClicked = new UrlClickHistory({
-            Url:savedModel._id
-        })
 
-        await urlClicked.save();
-        return originalUrl    
+        return originalUrl
     }
 
-    async getAllUrl(userId:string) {
-        const UrlList =  await Url.find({User:userId});
-        return UrlList
+    async getAllUrl(userId: string) {
+        const urlList = await this.urlRepository.findAllByUser(userId);
+        return urlList.map(toUrlResponse);
     }
 
-    async delete(id: string) {
-        const result = await Url.findByIdAndDelete(id);
-        if (!result) {
+    async delete(id: string, userId: string) {
+        if (!isUuid(id)) {
+            throw new Error('URL not found');
+        }
+
+        const deleted = await this.urlRepository.deleteForUser(id, userId);
+        if (!deleted) {
             throw new Error('URL not found');
         }
         return { message: 'URL deleted successfully' };
     }
 
-    async update(id: string, input: any) {     
-        const result = await Url.findByIdAndUpdate(
-            id,
-            { ...input }, 
-            { 
-                new: true, 
-                runValidators: true 
-            }
-        );
-        
-        if (!result) {
+    async update(id: string, userId: string, input: UrlDto) {
+        if (!isUuid(id)) {
             throw new Error('URL not found');
         }
-        
-        return result;
+
+        const existing = await this.urlRepository.findByIdForUser(id, userId);
+        if (!existing) {
+            throw new Error('URL not found');
+        }
+
+        await this.validateIfShortenedUrlExists(input.shortenedUrl, id);
+
+        await this.assertSafe(input.originalUrl);
+
+        try {
+            const result = await this.urlRepository.update(id, {
+                name: input.name,
+                originalUrl: input.originalUrl,
+                shortenedUrl: input.shortenedUrl,
+            });
+            return toUrlResponse(result);
+        } catch (error) {
+            if (isUniqueViolation(error)) throw new Error(DUPLICATE_SHORTENED_URL);
+            throw error;
+        }
     }
 }

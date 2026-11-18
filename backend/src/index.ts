@@ -1,15 +1,10 @@
 import 'dotenv/config';
 import express from 'express';
-import mongoose from 'mongoose';
+import { prisma } from './db.js';
 import url  from './routes/urlRoutes.js';
 import user from './routes/userRoutes.js'
 import urlStatistics from './routes/urlStatisticsRoutes.js'
 import cors from 'cors';
-
-const MONGODB_URL = process.env.MONGODB_URL;
-if (!MONGODB_URL) {
-    throw new Error('MONGODB_URL environment variable is required');
-}
 
 const app = express();
 app.use(express.json());
@@ -25,7 +20,10 @@ app.use('/url', url);
 app.use('/user', user);
 app.use('/statistics', urlStatistics);
 
-mongoose.connect(MONGODB_URL)
+prisma.$connect().catch((error) => {
+    console.error('Failed to connect to PostgreSQL:', error);
+    process.exit(1);
+});
 
 app.listen(3000, () => {
     console.log('Server is running on port 3000');

@@ -14,18 +14,28 @@ services:
     env_file:
       - ./backend/.env
     environment:
-      MONGODB_URL: mongodb://mongo:27017/trimurl
+      DATABASE_URL: postgresql://trimurl:trimurl@postgres:5432/trimurl
     depends_on:
-      - mongo
+      postgres:
+        condition: service_healthy
     ports:
       - "3000:3000"
 
-  mongo:
-    image: mongo:7
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: trimurl
+      POSTGRES_PASSWORD: trimurl
+      POSTGRES_DB: trimurl
     ports:
-      - "27017:27017"
+      - "5432:5432"
     volumes:
-      - mongo-data:/data/db
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U trimurl -d trimurl"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
 volumes:
-  mongo-data:
+  postgres-data:
