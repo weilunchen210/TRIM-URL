@@ -4,6 +4,7 @@ import { prisma } from './db.js';
 import url  from './routes/urlRoutes.js';
 import user from './routes/userRoutes.js'
 import urlStatistics from './routes/urlStatisticsRoutes.js'
+import health from './routes/healthRoutes.js'
 import cors from 'cors';
 
 const app = express();
@@ -19,6 +20,7 @@ app.use(cors({
 app.use('/url', url);
 app.use('/user', user);
 app.use('/statistics', urlStatistics);
+app.use('/health', health);
 
 prisma.$connect().catch((error) => {
     console.error('Failed to connect to PostgreSQL:', error);

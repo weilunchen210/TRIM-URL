@@ -1,0 +1,62 @@
+stages:
+  - check
+  - deploy
+
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH
+
+.node:
+  image: node:24
+  cache:
+    key: npm-$APP_DIR
+    paths:
+      - $APP_DIR/.npm/
+  before_script:
+    - cd $APP_DIR
+
+frontend:
+  extends: .node
+  stage: check
+  variables:
+    APP_DIR: frontend
+  script:
+    - npx tsc --noEmit -p tsconfig.app.json
+    - npx eslint src/
+
+backend:
+  extends: .node
+  stage: check
+  variables:
+    APP_DIR: backend
+  script:
+    - npx prisma generate
+    - npx tsc --noEmit
+
+deploy:
+  stage: deploy
+  image: alpine:3.20
+  resource_group: production
+  environment:
+    name: production
+  rules:
+    - if: $CI_COMMIT_BRANCH == "deploy"
+  before_script:
+    - apk add --no-cache openssh-client
+    - eval "$(ssh-agent -s)"
+    - chmod 600 "$SSH_PRIVATE_KEY"
+    - ssh-add "$SSH_PRIVATE_KEY"
+    - mkdir -p ~/.ssh && chmod 700 ~/.ssh
+    - cp "$SSH_KNOWN_HOSTS" ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+  script:
+    - |
+      ssh "$DEPLOY_USER@$DEPLOY_HOST" "DEPLOY_PATH='$DEPLOY_PATH' COMMIT='$CI_COMMIT_SHA' BRANCH='$CI_COMMIT_BRANCH' sh -s" <<'EOF'
+      set -eu
+      cd "$DEPLOY_PATH"
+      git fetch origin "$BRANCH"
+      git reset --hard "$COMMIT"
+      docker compose up -d --build --remove-orphans --wait --wait-timeout 120
+      docker image prune -f
+      EOF
